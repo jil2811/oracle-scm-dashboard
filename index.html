@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Oracle SCM Delivery Copilot Prompt Library</title>
+<style>
+:root{--acn:#A100FF;--dark:#3C0066;--mid:#7B00CC;--blue:#0078D4;--red:#dc2626;--green:#059669;--ora:#d97706;--purp:#7c3aed;--chatgpt:#10a37f;--claude:#d97706;--gemini:#4285F4}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',-apple-system,BlinkMacSystemFont,sans-serif;background:#f4f4f5;color:#333}
+.w{max-width:1000px;margin:0 auto;padding:10px}
+.hdr{background:linear-gradient(135deg,var(--dark),var(--mid) 35%,var(--acn) 65%,#B84DFF);border-radius:10px;padding:14px 18px;color:#fff;margin-bottom:10px}
+.brands{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+.brands .sep{width:1px;height:18px;background:rgba(255,255,255,.25)}
+.acn{font-size:17px;font-weight:700;letter-spacing:1px;position:relative;display:inline-block}
+.acn .gt{position:absolute;top:-11px;font-size:11px;font-weight:900;color:#E8DAEF}
+.ora-text{font-size:15px;font-weight:800;color:#FF6347;font-family:Arial,sans-serif}
+.cp-text{font-size:11px;font-weight:600;opacity:.85}
+.ai-badge{font-size:9px;font-weight:700;background:rgba(255,255,255,.12);border-radius:12px;padding:2px 8px}
+.hdr h1{font-size:16px;font-weight:800}
+.hdr p{font-size:10px;opacity:.75;margin-top:2px}
+.hdr-row{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:6px}
+.admin-btn{padding:4px 10px;border-radius:4px;border:1px solid rgba(255,255,255,.3);background:transparent;color:#fff;font-size:9px;font-weight:600;cursor:pointer}
+.admin-btn.on{background:rgba(255,255,255,.2)}
+.admin-bar{background:#FEF3C7;border:1px solid #F59E0B;border-radius:6px;padding:8px;margin-bottom:8px;display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.admin-bar span{font-size:10px;color:#92400E}
+.admin-bar .b{font-weight:700}
+.admin-bar .actions{margin-left:auto;display:flex;gap:4px}
+.tabs{display:flex;gap:2px;margin-bottom:8px;background:#e5e7eb;border-radius:6px;padding:2px}
+.tab{flex:1;padding:7px 0;border:none;border-radius:4px;font-weight:600;font-size:10.5px;cursor:pointer;background:transparent;color:#6b7280}
+.tab.on{background:#fff;color:var(--acn)}
+.stats{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.sc{flex:1;min-width:90px;background:#fff;border-radius:6px;padding:8px 10px;text-align:center;border-top:3px solid var(--acn)}
+.sc .n{font-size:18px;font-weight:800}
+.sc .l{font-size:7.5px;color:#6b7280;font-weight:700;text-transform:uppercase}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:6px}
+.sec{background:#fff;border-radius:6px;padding:10px}
+.sec h3{margin:0 0 5px;font-size:10px;font-weight:700}
+.bar-r{display:flex;align-items:center;gap:4px;margin-bottom:3px}
+.bar-l{width:70px;font-size:8.5px;font-weight:600;color:#4b5563;flex-shrink:0}
+.bar-bg{flex:1;background:#f3f4f6;border-radius:3px;height:14px;overflow:hidden}
+.bar-f{height:100%;border-radius:3px;display:flex;align-items:center;justify-content:flex-end;padding-right:3px;min-width:16px;transition:width .3s}
+.bar-f span{font-size:8px;font-weight:700;color:#fff}
+.search{width:100%;padding:6px 10px;border-radius:5px;border:1px solid #d1d5db;font-size:10.5px;outline:none;margin-bottom:6px}
+.filters{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:6px}
+.filters select{padding:4px 6px;border-radius:4px;border:1px solid #d1d5db;font-size:9px;font-weight:600}
+.clr-btn{padding:4px 6px;border-radius:4px;border:none;background:#fee2e2;color:var(--red);font-size:9px;font-weight:600;cursor:pointer}
+.count{font-size:9px;color:#6b7280;font-weight:600;margin-bottom:4px}
+.card{background:#fff;border-radius:6px;border:1px solid #e5e7eb;margin-bottom:3px;overflow:hidden}
+.card-h{padding:7px 9px;cursor:pointer;display:flex;align-items:center;gap:5px}
+.card-num{width:20px;height:20px;border-radius:3px;color:#fff;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;flex-shrink:0}
+.card-name{font-weight:700;font-size:10.5px;color:#1f2937;margin-bottom:1px}
+.badge{display:inline-block;padding:1px 5px;border-radius:8px;font-size:8px;font-weight:700;margin-right:1px}
+.arrow{color:#9ca3af;font-size:10px;flex-shrink:0}
+.card-b{padding:0 9px 9px;border-top:1px solid #f3f4f6}
+.btn-row{margin-top:5px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:3px;margin-bottom:4px}
+.btn-label{font-size:8px;font-weight:700;color:#4b5563;text-transform:uppercase}
+.ai-btns{display:flex;gap:3px;flex-wrap:wrap}
+.ai-btn{padding:3px 7px;border-radius:3px;border:none;color:#fff;font-size:8.5px;font-weight:600;cursor:pointer}
+.admin-btns{display:flex;gap:3px}
+.edit-btn{padding:2px 6px;border-radius:3px;border:1px solid #d1d5db;background:#fff;font-size:8px;cursor:pointer}
+.del-btn{padding:2px 6px;border-radius:3px;border:1px solid #fca5a5;background:#fff;color:var(--red);font-size:8px;cursor:pointer}
+.prompt-box{margin-top:4px;background:#faf8ff;border:1px solid #e9e5ff;border-radius:4px;padding:7px;font-size:9px;line-height:1.45;white-space:pre-wrap;word-break:break-word;color:#374151;max-height:200px;overflow-y:auto;font-family:Consolas,Monaco,monospace}
+.metrics{margin-top:3px;display:flex;gap:6px;padding:3px 5px;background:#f9fafb;border-radius:3px;font-size:9px}
+.output{margin-top:3px;padding:3px;background:#f0fdf4;border-radius:3px;font-size:9px;color:#166534}
+.mod-hdr{background:var(--acn);color:#fff;padding:4px 10px;border-radius:4px;font-size:10.5px;font-weight:700;margin:6px 0 3px}
+.visio-intro{background:var(--blue);border-radius:6px;padding:10px;color:#fff;margin-bottom:8px}
+.visio-intro h2{font-size:13px;font-weight:800;margin-bottom:2px}
+.visio-intro p{font-size:9.5px;opacity:.9}
+.step{display:flex;gap:7px;align-items:flex-start;margin-bottom:7px}
+.step-n{width:20px;height:20px;border-radius:50%;background:var(--acn);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:10px;flex-shrink:0}
+.step-t{font-weight:700;font-size:10.5px}
+.step-d{font-size:9.5px;color:#4b5563}
+.role{margin-bottom:5px;padding:5px 8px;background:#F5EEF8;border-radius:4px;border-left:3px solid var(--acn)}
+.role h4{font-weight:700;font-size:9.5px;color:var(--acn)}
+.role p{font-size:9.5px;color:#374151}
+.footer{text-align:center;padding:8px 0;font-size:7.5px;color:#9ca3af}
+.hidden{display:none}
+.edit-form{background:#fff;border-radius:6px;padding:12px;border:2px solid var(--acn);margin-bottom:8px}
+.edit-form h3{font-size:13px;font-weight:700;color:var(--acn);margin-bottom:8px}
+.edit-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:6px}
+.edit-form label{font-size:9px;font-weight:600;display:block;margin-bottom:1px}
+.edit-form input,.edit-form select,.edit-form textarea{padding:5px 6px;border-radius:3px;border:1px solid #d1d5db;font-size:10px;width:100%;box-sizing:border-box}
+.edit-form textarea{height:100px;font-family:Consolas,monospace}
+.save-btn{padding:5px 12px;border-radius:4px;border:none;background:var(--acn);color:#fff;font-weight:700;font-size:10px;cursor:pointer}
+.cancel-btn{padding:5px 12px;border-radius:4px;border:1px solid #d1d5db;background:#fff;font-size:10px;cursor:pointer}
+.add-btn{padding:3px 8px;border-radius:3px;border:none;background:var(--acn);color:#fff;font-size:9px;font-weight:700;cursor:pointer}
+.reset-btn{padding:3px 8px;border-radius:3px;border:1px solid var(--red);background:#fff;color:var(--red);font-size:9px;cursor:pointer}
+</style>
+</head>
+<body>
+<div class="w" id="app"></div>
+<script>
+// ═══ CONSTANTS ═══
+const PH=["Analyze","Design","Build","Test","Deploy","Operate"];
+const MD=["Order to Cash","Procure to Pay","Inventory Mgmt","Manufacturing","Planning","Cross-Module"];
+const CT=["Documentation","Process Flow","Visio Diagram","Testing","Project Mgmt","Cutover","Reporting"];
+const CL={Documentation:"#A100FF","Process Flow":"#2563eb","Visio Diagram":"#0078D4",Testing:"#059669","Project Mgmt":"#d97706",Cutover:"#dc2626",Reporting:"#7c3aed"};
+const AI=[
+  {n:"M365 Copilot",u:"https://m365.cloud.microsoft/chat",bg:"#0078D4"},
+  {n:"ChatGPT",u:"https://chatgpt.com",bg:"#10a37f"},
+  {n:"Claude",u:"https://claude.ai",bg:"#d97706"},
+  {n:"Gemini",u:"https://gemini.google.com",bg:"#4285F4"}
+];
+
+// ═══ PROMPT BUILDING BLOCKS ═══
+const R="You are a Senior Oracle Fusion Cloud SCM Solution Architect with 25+ years of experience and 15+ end-to-end Oracle Cloud implementation lifecycles across public sector, federal, and commercial clients. You have deep expertise in Oracle Fusion Cloud modules including Order Management, Procurement, Inventory, Manufacturing, Supply Chain Planning, Cost Management, and cross-module integrations.";
+const CTX="The client is a mid-size public sector organization implementing Oracle Fusion Cloud SCM. The project follows Oracle's Cloud Implementation Lifecycle methodology (Plan, Analyze, Design, Configure & Build, Test, Deploy, Operate). All outputs must use [CLIENT NAME] and [PROJECT NAME] as placeholders. Use only synthetic data for any examples (e.g., Customer: Acme Public Services, Supplier: SynthCorp-001, Item: AS54888, Warehouse: M1-Seattle).";
+const CON="CONSTRAINTS:\n- Do NOT use any real client data\n- Use Oracle Fusion Cloud terminology and navigation paths (not EBS/R12)\n- Include navigation in format: Navigator > Module > Task\n- Professional consulting quality, ready for Microsoft Word\n- Section numbering (1.0, 1.1 format)\n- Include [TO BE CONFIRMED] for client-specific decisions";
+const VCON="CONSTRAINTS:\n- Output MUST be a table: Step # | Step Name | Swim Lane | Shape Type | Description | Oracle Navigation | Yes Path | No Path | Integration | Data Object\n- Shape Types: Start (oval), End (oval), Process (rectangle), Decision (diamond), Document, System (double-line rectangle)\n- Every Decision MUST have Yes AND No paths labeled\n- Every manual step MUST have Oracle Fusion navigation path\n- System steps in 'System (Automated)' swim lane\n- Start with Start oval, end with End oval\n- Minimum 25 steps for E2E processes\n- Use Oracle Fusion Cloud standard terminology\n- After table: (1) Swim lane order top-to-bottom with colors, (2) Integration callout boxes, (3) Exception branches";
+
+// ═══ ALL 70 PROMPTS ═══
+const DP=[
+{id:1,n:"O2C Functional Design Document (FDD)",c:"Documentation",m:"Order to Cash",p:"Design",t:8,a:1.5,pr:"ROLE:\n"+R+"\n\nTASK:\nCreate a comprehensive Functional Design Document (FDD) for the Order to Cash (O2C) process in Oracle Fusion Cloud.\n\nCONTEXT:\n"+CTX+" Covers full O2C: Sales Order > Booking > Pick > Ship > AutoInvoice > AR Receipt > Revenue Recognition.\n\n"+CON+"\n\nFORMAT:\n1.0 Document Control (version table, author, approver)\n2.0 Executive Summary\n3.0 Business Requirements Overview (reference BR-OTC-001 through BR-OTC-025)\n4.0 Current State Summary (pain points, manual workarounds)\n5.0 Future State Design\n  5.1 Order Management (order types, holds, pricing, scheduling)\n  5.2 Fulfillment (pick release, shipping, delivery)\n  5.3 Receivables (transaction types, AutoInvoice, receipts, revenue recognition)\n6.0 Configuration Decisions (table: Decision ID | Area | Options | Recommendation)\n7.0 Integration Points (table: INT-ID | Source | Target | Direction | Method)\n8.0 Data Conversion (table: Object | Source | Target FBDI | Volume)\n9.0 Security Roles (table: Role | Module | Duties | Job Title)\n10.0 Reporting Requirements\n11.0 Open Issues and Assumptions\n12.0 Appendix: Field Mappings\n\nEXAMPLE:\n\"5.1.1 Order Types:\\n| Order Type | Description | Workflow | Use Case |\\n| Standard | Standard sales order | Book-Pick-Ship-Invoice | Regular orders |\"",e:"12-section FDD with config decisions, integration matrix, and role mappings."},
+{id:2,n:"O2C Business Requirements Document (BRD)",c:"Documentation",m:"Order to Cash",p:"Analyze",t:10,a:2,pr:"ROLE:\n"+R+"\n\nTASK:\nCreate a comprehensive BRD for Order to Cash.\n\nCONTEXT:\n"+CTX+"\n\n"+CON+"\n\nFORMAT:\n1.0 Document Control\n2.0 Background and Objectives\n3.0 Scope (In: OM, Pricing, Shipping, AR; Out: Advanced Pricing, Channel Rev Mgmt)\n4.0 Stakeholders\n5.0 Business Requirements (minimum 25, format each as):\n  | BR-OTC-001 | [Title] |\n  | Description | [Detail] |\n  | Priority | Must/Should/Could |\n  | Acceptance Criteria | [Measurable] |\n  | Module Impact | [OM/Shipping/AR] |\n6.0 Business Rules (credit checks, approvals, holds, pricing)\n7.0 Reporting (5+ reports)\n8.0 Interfaces\n9.0 Data Migration\n10.0 Non-Functional\n11.0 Assumptions\n12.0 Glossary\n\nEXAMPLE:\n\"BR-OTC-001: Automated Credit Check\\nDescription: System shall auto-check credit limit during booking.\\nPriority: Must Have\\nAcceptance: Orders exceeding limit placed on Credit Check Hold.\"",e:"Full BRD with 25+ requirements."},
+{id:3,n:"O2C Configuration Workbook (BR100)",c:"Documentation",m:"Order to Cash",p:"Build",t:10,a:2,pr:"ROLE:\n"+R+"\n\nTASK:\nCreate BR100 Configuration Workbook for O2C.\n\nCONTEXT:\n"+CTX+"\n\n"+CON+"\n\nFORMAT:\nTable: Config ID | Module | Setup Area | Item | Oracle Navigation Path | Setup Task | Value | Client Decision | Dependencies | Notes\n\n40+ items across:\n- Order Management: Order Types, Holds, Processing Constraints, Promising Rules, Orchestration, DOO Parameters\n- Pricing: Price Lists, Strategies, Algorithms, Discounts, Profiles\n- Shipping: Parameters, Ship Methods, Pick Release Rules, Document Sets, Freight, Auto Ship Confirm\n- Receivables: Transaction Types, Sources (AutoInvoice), Payment Terms, Receipt Classes/Methods, Revenue Recognition, AutoAccounting, Aging Buckets, System Options\n\nEXAMPLE:\n| CFG-OTC-001 | OM | Order Types | Standard SO | Navigator > Order Management > Setup > Manage Order Types | Manage Order Type | Standard, Book-Pick-Ship-Invoice | [CLIENT] | Requires fulfillment line type | Default for most orders |",e:"40+ config items with Oracle navigation."},
+{id:4,n:"O2C UAT Test Scripts (15 Scripts)",c:"Testing",m:"Order to Cash",p:"Test",t:12,a:2,pr:"ROLE:\nYou are a Senior Oracle Fusion Cloud SCM Test Lead.\n\nTASK:\nCreate 15 detailed UAT test scripts for Order to Cash.\n\nCONTEXT:\n"+CTX+"\n\nCONSTRAINTS:\n- TC-OTC-UAT-001 format\n- Synthetic data only (Customer: ACME-PUB-001, Item: AS54888, Warehouse: M1-Seattle)\n- Exact Oracle Fusion Cloud navigation paths\n- Both positive and negative scenarios\n\nFORMAT per script:\n| Test Case ID | TC-OTC-UAT-[001-015] |\n| Name | [Descriptive] |\n| Module | OM / Shipping / AR |\n| Priority | High/Medium/Low |\n| Prerequisites | [What must exist] |\n| Test Data | [Specific synthetic values] |\n\nStep table:\n| Step # | Action | Oracle Navigation | Input Data | Expected Result |\n\n| Pass/Fail Criteria | [What constitutes pass] |\n\n15 scenarios: 1. Standard SO create/book, 2. Price override, 3. Credit check hold/release, 4. Back-to-back, 5. Drop ship, 6. Pick release/confirm, 7. Partial ship, 8. Full ship+BOL, 9. AutoInvoice batch, 10. AR adjustment, 11. Credit memo, 12. Payment receipt, 13. SO cancellation, 14. RMA, 15. Full E2E cycle",e:"15 test scripts with step-by-step Oracle navigation."},
+{id:5,n:"Visio: Standard Sales Order E2E Flow",c:"Visio Diagram",m:"Order to Cash",p:"Design",t:5,a:0.75,pr:"ROLE:\n"+R+" You are also an expert in Visio cross-functional flowcharts following Oracle Fusion Cloud standard process flows.\n\nTASK:\nGenerate a detailed cross-functional swim lane flow for the STANDARD SALES ORDER process.\n\nCONTEXT:\n"+CTX+"\n\n"+VCON+"\n\nSWIM LANES:\n1. Customer\n2. Sales Representative\n3. Order Manager\n4. Credit Analyst\n5. Warehouse / Shipping\n6. Accounts Receivable\n7. System (Automated)\n\nPROCESS STEPS (follow this sequence):\n1. Start: Customer submits order\n2. Sales Rep creates SO (Navigator > Order Management > Create Order)\n3. System validates item availability (ATP)\n4. Decision: Item available? Yes > continue, No > backorder\n5. System applies pricing\n6. Decision: Price override? Yes > manager approval, No > continue\n7. Sales Rep submits for booking\n8. System credit check (Integration: AR Credit)\n9. Decision: Credit passed? Yes > book, No > Credit Check Hold\n10. Credit Analyst reviews (Navigator > Order Management > Manage Holds)\n11. Decision: Release? Yes > book, No > notify customer\n12. System books order\n13. System schedules and reserves inventory\n14. System pick release (Navigator > Inventory > Release Sales Orders)\n15. Warehouse picks items\n16. Warehouse confirms pick\n17. Decision: Full qty picked? Yes > ship, No > partial/backorder\n18. Ship confirm (Navigator > Shipping > Ship Confirm)\n19. System generates BOL (Document)\n20. System sends ASN to customer\n21. System AutoInvoice (Integration: Receivables)\n22. System creates AR Invoice\n23. AR reviews invoice\n24. Decision: Correct? Yes > release, No > adjust\n25. Invoice delivered to customer\n26. Customer remits payment\n27. AR applies receipt (Navigator > Receivables > Manage Receipts)\n28. System posts to GL (Integration: GL)\n29. End: Revenue recognized\n\nEXAMPLE (first 2 rows):\n| 1 | Customer Submits Order | Customer | Start | Customer sends order via phone/email/portal | N/A (External) | N/A | N/A | N/A | Order Request |\n| 2 | Create Sales Order | Sales Representative | Process | Enter header and lines | Navigator > Order Management > Create Order | N/A | N/A | Pricing Engine | SO ORD-2026-0001 |",e:"29-step SO flow with exact Oracle navigation for every step."},
+{id:6,n:"Visio: Drop Shipment Flow",c:"Visio Diagram",m:"Order to Cash",p:"Design",t:5,a:0.75,pr:"ROLE:\n"+R+" Expert in Visio flowcharts.\n\nTASK:\nGenerate cross-functional flow for DROP SHIPMENT showing dual AR/AP parallel streams.\n\nCONTEXT:\n"+CTX+"\n\n"+VCON+"\n\nSWIM LANES: Customer, Sales Rep, Order Manager, Buyer, Supplier, AR Clerk, AP Clerk, System\n\nKEY STEPS:\n1. SO with Drop Ship line type\n2. System auto-creates PO (Integration: OM > Procurement)\n3. PO dispatched to supplier\n4. Supplier ships direct to customer\n5. Shipment notice received\n6. System receipt against PO\n7. PARALLEL STREAM A: AutoInvoice > AR invoice to customer\n8. PARALLEL STREAM B: Supplier invoice > AP matching to PO\n9. Customer payment > AR receipt\n10. Supplier payment > AP payment\n\nIMPORTANT: Add note box \"PARALLEL PROCESSING - AR and AP run simultaneously after shipment\"",e:"Drop ship with parallel AR/AP streams."},
+{id:7,n:"Visio: Back-to-Back Order Flow",c:"Visio Diagram",m:"Order to Cash",p:"Design",t:5,a:0.75,pr:"ROLE:\n"+R+" Expert in Visio flowcharts.\n\nTASK:\nGenerate cross-functional flow for BACK-TO-BACK ORDER with Buy vs Make branching.\n\nCONTEXT:\n"+CTX+"\n\n"+VCON+"\n\nSWIM LANES: Customer, Sales Rep, System (Orchestration), Buyer, Supplier, Production Supervisor, Warehouse, AR\n\nKEY DECISION: \"Buy or Make?\" branches into:\n- BUY: Req > PO > Supplier ships > Receipt > Transfer to SO\n- MAKE: WO > Production > FG Completion > Transfer to SO\nBoth converge at: Pick > Ship > Invoice > Payment\n\n25+ steps.",e:"B2B with buy/make decision branching."},
+{id:8,n:"Visio: Return (RMA) Flow",c:"Visio Diagram",m:"Order to Cash",p:"Design",t:4,a:0.75,pr:"ROLE:\n"+R+" Expert in Visio flowcharts.\n\nTASK:\nGenerate cross-functional flow for RMA with quality inspection branching.\n\nCONTEXT:\n"+CTX+"\n\n"+VCON+"\n\nSWIM LANES: Customer, CSR, Return Manager, Warehouse, Quality Inspector, AR Clerk, System\n\nKEY DECISIONS:\n1. Return authorized? (Yes > RMA, No > deny)\n2. Quality result? (Accept > inventory + credit memo, Reject > return to customer, Repair > repair center)\n\n20+ steps. Navigator > Order Management > Create Return, Navigator > Receivables > Create Credit Memo.",e:"RMA with Accept/Reject/Repair branching."},
+{id:9,n:"Visio: Invoice-to-Cash (AR)",c:"Visio Diagram",m:"Order to Cash",p:"Design",t:4,a:0.75,pr:"ROLE:\n"+R+" Expert in Visio flowcharts.\n\nTASK:\nGenerate flow for INVOICE TO CASH subprocess.\n\nCONTEXT:\n"+CTX+"\n\n"+VCON+"\n\nSWIM LANES: System (AutoInvoice), AR Clerk, AR Manager, Collections, Customer, Treasury, GL\n\nKEY DECISIONS:\n1. Invoice correct? (Yes > release, No > adjust)\n2. Paid on time? (Yes > close, No > collections)\n3. Collectible? (Yes > plan, No > write-off)\n4. Write-off approved? (Yes > post, No > escalate)\n\nCover: AutoInvoice > validation > adjustments > release > aging > dunning > collections > receipt > application > write-off > revenue recognition > GL.",e:"AR subprocess to GL posting."},
+{id:10,n:"Visio: Requisition-to-PO Flow",c:"Visio Diagram",m:"Procure to Pay",p:"Design",t:5,a:0.75,pr:"ROLE:\n"+R+" Expert in Visio flowcharts.\n\nTASK:\nGenerate cross-functional flow for REQUISITION TO PO with multi-level approval.\n\nCONTEXT:\n"+CTX+"\n\n"+VCON+"\n\nSWIM LANES: Requester, Catalog System, Approver L1, Approver L2, Buyer, Procurement Mgr, Supplier, System\n\nKEY DECISIONS:\n1. Catalog or Non-catalog?\n2. Approval by amount: <$5K auto, $5K-$50K Manager, $50K-$200K Director, >$200K VP\n3. Auto-create PO or manual sourcing?\n4. PO approval required?\n\n30+ steps. Navigator > Procurement > Purchase Requisitions, Navigator > Procurement > Purchase Orders.",e:"Req-to-PO with multi-level approval."},
+{id:11,n:"Visio: Receipt-to-Payment Flow",c:"Visio Diagram",m:"Procure to Pay",p:"Design",t:5,a:0.75,pr:"ROLE:\n"+R+" Expert in Visio flowcharts.\n\nTASK:\nGenerate flow for RECEIPT TO PAYMENT with matching logic.\n\nCONTEXT:\n"+CTX+"\n\n"+VCON+"\n\nSWIM LANES: Supplier, Receiving, Quality, Warehouse, AP Clerk, AP Manager, Treasury, System\n\nKEY DECISIONS:\n1. Inspection required?\n2. Match type: 2-way/3-way/4-way?\n3. Within tolerance? (Yes > auto-approve, No > hold)\n4. Hold resolution: Approve/Reject/Escalate?\n5. Payment method: Check/EFT/Wire?\n\n25+ steps. Navigator > Receiving > Receive, Navigator > Payables > Create Invoice, Navigator > Payables > Payment Process.",e:"Receipt-to-payment with matching decisions."},
+{id:12,n:"Visio: Supplier Returns Flow",c:"Visio Diagram",m:"Procure to Pay",p:"Design",t:4,a:0.75,pr:"ROLE:\n"+R+" Expert in Visio flowcharts.\n\nTASK:\nGenerate flow for RETURN TO SUPPLIER with debit memo.\n\nCONTEXT:\n"+CTX+"\n\n"+VCON+"\n\nSWIM LANES: Warehouse, Quality, Buyer, Supplier, AP, System\n\nDecision: Replacement vs Refund. Cover: defect identified > return authorization > shipment > debit memo > credit processing > inventory adjustment. 15+ steps.",e:"Supplier return with debit memo."},
+{id:13,n:"P2P Functional Design Document",c:"Documentation",m:"Procure to Pay",p:"Design",t:8,a:1.5,pr:"ROLE:\n"+R+"\n\nTASK:\nCreate FDD for Procure to Pay.\n\nCONTEXT:\n"+CTX+"\n\n"+CON+"\n\nFORMAT:\nSame 12-section structure covering:\n5.1 Self-Service Procurement (catalog, punchout, requisition prefs)\n5.2 Purchasing (document styles, PO types, blanket/contract, change orders)\n5.3 Receiving (receipt routing, inspection, tolerances, ASN)\n5.4 Accounts Payable (invoice entry, matching, holds, payments)\n\nInclude config decisions, integration matrix (GL, Projects, Inventory), data conversion, security roles.",e:"Complete P2P FDD."},
+{id:14,n:"P2P Configuration Workbook (BR100)",c:"Documentation",m:"Procure to Pay",p:"Build",t:10,a:2,pr:"ROLE:\n"+R+"\n\nTASK:\nCreate BR100 for P2P.\n\nCONTEXT:\n"+CTX+"\n\n"+CON+"\n\nFORMAT:\n40+ items: Procurement BU, Requisition Prefs, Catalog, Approval Rules, Document Styles, Buyer Assignment, PO Defaults, Blanket/Contract setup, Receiving Parameters, Receipt Routing, Tolerances, ASN, Invoice Tolerances, Matching Rules, Payment Terms/Methods, Bank Accounts, Payment Process Profiles, Withholding Tax.\n\nExcel-ready table with Oracle navigation paths.",e:"40+ P2P config items."},
+{id:15,n:"P2P UAT Test Scripts (15)",c:"Testing",m:"Procure to Pay",p:"Test",t:12,a:2,pr:"ROLE:\nSenior Oracle Fusion Cloud Test Lead.\n\nTASK:\nCreate 15 UAT scripts for P2P. TC-P2P-UAT-001 format.\n\nCONTEXT:\n"+CTX+"\n\n15 scenarios: 1. Catalog req, 2. Non-catalog req, 3. Approval routing, 4. Auto-create PO, 5. Manual PO, 6. Multi-line PO, 7. PO change order, 8. PO cancel, 9. Full receipt, 10. Partial receipt, 11. Return to supplier, 12. 3-way match invoice, 13. Hold resolution, 14. Payment batch, 15. Full E2E.",e:"15 P2P test scripts."},
+{id:16,n:"Visio: Receipt to Putaway",c:"Visio Diagram",m:"Inventory Mgmt",p:"Design",t:4,a:0.75,pr:"ROLE:\n"+R+" Expert in Visio flowcharts.\n\nTASK:\nGenerate flow for RECEIPT TO PUTAWAY.\n\nCONTEXT:\n"+CTX+"\n\n"+VCON+"\n\nSWIM LANES: Receiving Clerk, Quality Inspector, Warehouse Mgr, Inventory Clerk, Cost Accountant, System\n\nDECISIONS:\n1. Inspection required? (item/supplier rules)\n2. Accept/Reject\n3. Lot/Serial controlled?\n\nCover: Arrival > PO lookup (Navigator > Receiving > Receive Expected Shipments) > receipt > inspection routing > deliver > putaway > costing > accrual > on-hand updated. 18+ steps.",e:"Receipt-putaway with inspection."},
+{id:17,n:"Visio: Interorg Transfer (Direct+Intransit)",c:"Visio Diagram",m:"Inventory Mgmt",p:"Design",t:5,a:0.75,pr:"ROLE:\n"+R+" Expert in Visio flowcharts.\n\nTASK:\nGenerate TWO flows for INTERORG TRANSFER.\n\nCONTEXT:\n"+CTX+"\n\n"+VCON+"\n\nDIRECT: Transfer order > ship > instant receipt > balances updated > transfer pricing\nINTRANSIT: Transfer order > ship > intransit inventory > tracking > destination receives > intransit cleared > profit elimination\n\nSWIM LANES: Source Warehouse, Intransit, Destination Warehouse, Inventory Mgr, Cost Accountant, System\n\nNavigator > Inventory > Create Transfer Order, Navigator > Inventory > Receive Transfer Order Shipments. 20+ steps total.",e:"Direct and intransit transfer flows."},
+{id:18,n:"Visio: Cycle Count Flow",c:"Visio Diagram",m:"Inventory Mgmt",p:"Design",t:4,a:0.75,pr:"ROLE:\n"+R+" Expert in Visio flowcharts.\n\nTASK:\nGenerate flow for CYCLE COUNT.\n\nCONTEXT:\n"+CTX+"\n\n"+VCON+"\n\nSWIM LANES: Planning System, Cycle Counter, Warehouse Mgr, Inventory Mgr, Cost Accountant, System\n\nDECISIONS:\n1. Within tolerance? (Yes > auto-adjust, No > recount)\n2. Recount still out? (Yes > manager approval, No > adjust)\n3. Manager approves? (Yes > post, No > investigate)\n\nCover: ABC classification > schedule > count requests > physical count > entries (Navigator > Inventory > Enter Cycle Count) > compare > tolerance > recount loop > approval > adjustment > cost impact > variance report. 20+ steps.",e:"Cycle count with recount loop."},
+{id:19,n:"Visio: Physical Inventory Flow",c:"Visio Diagram",m:"Inventory Mgmt",p:"Design",t:4,a:0.75,pr:"ROLE:\n"+R+" Expert in Visio flowcharts.\n\nTASK:\nGenerate flow for PHYSICAL INVENTORY.\n\nCONTEXT:\n"+CTX+"\n\n"+VCON+"\n\nSWIM LANES: Inventory Mgr, Count Team Lead, Count Teams, Warehouse Mgr, Controller, System\n\nCover: Freeze snapshot > tag generation > count > entry > variance analysis > Decision: within threshold? > approval > posting > unfreeze. 15+ steps.",e:"Physical inventory flow."},
+{id:20,n:"Visio: Misc Transactions (4 Sub-Flows)",c:"Visio Diagram",m:"Inventory Mgmt",p:"Design",t:4,a:0.75,pr:"ROLE:\n"+R+" Expert in Visio flowcharts.\n\nTASK:\nGenerate 4 flows for MISC TRANSACTIONS.\n\nCONTEXT:\n"+CTX+"\n\n"+VCON+"\n\n1. Misc Receipt (Navigator > Inventory > Miscellaneous Transaction > Misc Receipt)\n2. Misc Issue (Type: Misc Issue - expense/scrap/donation)\n3. Subinventory Transfer (within same org)\n4. WO Material Issue (Navigator > Inventory > Pick Components)\n\nEach: 10+ steps, swim lanes, Oracle navigation, costing impact.",e:"Four misc transaction flows."},
+{id:21,n:"Inventory Management FDD",c:"Documentation",m:"Inventory Mgmt",p:"Design",t:7,a:1.5,pr:"ROLE:\n"+R+"\n\nTASK:\nCreate FDD for Inventory Management.\n\nCONTEXT:\n"+CTX+"\n\n"+CON+"\n\nFORMAT:\n5.1 Org Structure (Master Org, Inventory Orgs, Subinventories, Locators)\n5.2 Item Setup (Classes, Attributes, Templates, Categories, Catalogs, UOM)\n5.3 Lot/Serial Control\n5.4 Transaction Types\n5.5 Cycle Count (ABC, scheduling, tolerances)\n5.6 Min-Max Planning\n5.7 Interorg Transfer Rules\n5.8 Cost Management (Standard vs Average, elements, overhead)\n\nIntegrations (Purchasing, OM, Manufacturing, Costing, GL), data conversion (Items, On-hand, Costs, Categories).",e:"Complete Inventory FDD."},
+{id:22,n:"Inventory Configuration (BR100)",c:"Documentation",m:"Inventory Mgmt",p:"Build",t:8,a:1.5,pr:"ROLE:\n"+R+"\n\nTASK:\nCreate BR100 for Inventory.\n\nCONTEXT:\n"+CTX+"\n\n"+CON+"\n\nFORMAT:\n45+ items: Org parameters, Subinventories, Locators, Item Classes/Attributes/Templates, Category Sets, UOM Classes, Transaction Types/Sources/Reasons, Material Status, Lot Control, Serial Generation, Cycle Count headers/schedules/ABC/tolerances, Min-Max parameters, Cost Methods/Elements/Profiles/Overhead, Receiving parameters.",e:"45+ inventory config items."},
+{id:23,n:"Inventory UAT Test Scripts (12)",c:"Testing",m:"Inventory Mgmt",p:"Test",t:10,a:1.5,pr:"ROLE:\nSenior Test Lead.\n\nTASK:\nCreate 12 UAT scripts for Inventory. TC-INV-UAT-001 format. Synthetic data (Org: M1-Seattle, Item: AS54888-WIDGET, Lot: LOT-2026-MAR, Serial: SN-00001).\n\n12 scenarios: misc receipt, misc issue, subinv transfer, direct interorg, intransit transfer, adjustment, cycle count scheduling, cycle count entry/approval, lot-controlled receipt, serial transaction, min-max planning, on-hand reconciliation.",e:"12 inventory test scripts."},
+{id:24,n:"Visio: Discrete Work Order Lifecycle",c:"Visio Diagram",m:"Manufacturing",p:"Design",t:5,a:0.75,pr:"ROLE:\n"+R+" Expert in Visio flowcharts.\n\nTASK:\nGenerate flow for DISCRETE WORK ORDER LIFECYCLE.\n\nCONTEXT:\n"+CTX+"\n\n"+VCON+"\n\nSWIM LANES: Planner, Production Supervisor, Shop Floor, Material Handler, Quality Inspector, Cost Accountant, System\n\nLIFECYCLE:\n1. Planned order from supply plan (or manual)\n2. Planner firms > WO created (Navigator > Manufacturing > Manage Work Orders)\n3. Status: Unreleased > Decision: Materials available?\n4. Released > Dispatched\n5. Op 10 starts > material issued (push or backflush)\n6. Operation completion (Navigator > Manufacturing > Report Transactions)\n7. Move to Op 20, 30...\n8. Quality checkpoint > Decision: Pass/Fail\n9. Fail > Decision: Scrap or Rework?\n10. Final op > WO Completion (FG to inventory)\n11. WO Close > Cost reconciliation > Variance\n\n25+ steps.",e:"Complete WO lifecycle."},
+{id:25,n:"Visio: Outside Processing (OSP)",c:"Visio Diagram",m:"Manufacturing",p:"Design",t:4,a:0.75,pr:"ROLE:\n"+R+" Expert in Visio flowcharts.\n\nTASK:\nGenerate flow for OUTSIDE PROCESSING.\n\nCONTEXT:\n"+CTX+"\n\n"+VCON+"\n\nSWIM LANES: Production Supervisor, Buyer, Supplier, Shipping/Receiving, AP, Cost Accountant, System\n\nCover: WO with OSP op > system creates req > buyer creates PO > ship to supplier > supplier processes > receive back > report op completion > supplier invoice > AP matching > cost to WO. 15+ steps.",e:"OSP flow."},
+{id:26,n:"Visio: Rework and Scrap Flow",c:"Visio Diagram",m:"Manufacturing",p:"Design",t:4,a:0.75,pr:"ROLE:\n"+R+" Expert in Visio flowcharts.\n\nTASK:\nGenerate flow for REWORK AND SCRAP.\n\nCONTEXT:\n"+CTX+"\n\n"+VCON+"\n\nSWIM LANES: Quality, Production Supervisor, Planner, Shop Floor, Cost Accountant, System\n\nDecision: \"Scrap or Rework?\"\nSCRAP: scrap transaction > scrap account > WO qty adjusted > variance\nREWORK: rework WO created > material/labor > completed > good inventory > rework cost\n\n15+ steps.",e:"Scrap and rework flows."},
+{id:27,n:"Manufacturing FDD",c:"Documentation",m:"Manufacturing",p:"Design",t:8,a:1.5,pr:"ROLE:\n"+R+"\n\nTASK:\nCreate FDD for Manufacturing.\n\nCONTEXT:\n"+CTX+"\n\n"+CON+"\n\nCover: Strategy (MTS/MTO/CTO), Work Definitions (routing, ops, resources), Item Structures (BOM), WO types/lifecycle, Shop Floor transactions, OSP, Quality integration, Plant parameters, Integrations, Data Conversion (BOMs, Routings, Work Centers, Resources), Security Roles.",e:"Complete Manufacturing FDD."},
+{id:28,n:"Manufacturing UAT Test Scripts (10)",c:"Testing",m:"Manufacturing",p:"Test",t:10,a:2,pr:"ROLE:\nSenior Test Lead.\n\nTASK:\nCreate 10 UAT scripts. TC-MFG-UAT-001. Synthetic data (Plant: MFG-Seattle, WO: WO-2026-0001, FG: FG-PUMP-100, Component: COMP-MOTOR-200).\n\n10 scenarios: work definition, create WO, release/dispatch, op completion, material issue (push), backflush, WO completion, WO close/cost, rework WO, OSP E2E.",e:"10 manufacturing test scripts."},
+{id:29,n:"Visio: Demand Planning Cycle",c:"Visio Diagram",m:"Planning",p:"Design",t:4,a:0.75,pr:"ROLE:\n"+R+" Expert in Visio flowcharts.\n\nTASK:\nGenerate flow for DEMAND PLANNING CYCLE.\n\nCONTEXT:\n"+CTX+"\n\n"+VCON+"\n\nSWIM LANES: Sales/Marketing, Demand Planner, Planning Mgr, Statistical Engine, Consensus Meeting, System\n\nCover: Historical data > statistical forecast (Navigator > Planning > Manage Demand Plans) > sales input > marketing adjustments > consensus review > Decision: Consensus? > approval > publish to supply planning. 15+ steps.",e:"Demand planning with consensus."},
+{id:30,n:"Visio: Supply Planning to Execution",c:"Visio Diagram",m:"Planning",p:"Design",t:5,a:0.75,pr:"ROLE:\n"+R+" Expert in Visio flowcharts.\n\nTASK:\nGenerate flow for SUPPLY PLANNING TO EXECUTION with 3-way branching.\n\nCONTEXT:\n"+CTX+"\n\n"+VCON+"\n\nSWIM LANES: Supply Planner, Planning Mgr, Buyer, Production Supervisor, Warehouse, System\n\nKEY DECISION: \"Planned Order Type?\" with THREE branches:\n- BUY: Release as Purchase Requisition\n- MAKE: Release as Work Order\n- TRANSFER: Release as Transfer Order\n\nCover: Data collection > run plan (Navigator > Planning > Manage Supply Plans) > exceptions > actions > release > 3 branches > monitor > replan. 20+ steps.",e:"Supply plan with 3-way branching."},
+{id:31,n:"Visio: Demand-to-Supply E2E",c:"Visio Diagram",m:"Planning",p:"Design",t:5,a:0.75,pr:"ROLE:\n"+R+" Expert in Visio flowcharts.\n\nTASK:\nGenerate END-TO-END DEMAND TO SUPPLY master flow spanning Planning, Purchasing, Manufacturing, Inventory.\n\nCONTEXT:\n"+CTX+"\n\n"+VCON+"\n\nSWIM LANES: Customer, Demand Planner, Supply Planner, Buyer, Production Supervisor, Warehouse, System\n\n25+ steps: demand signals > demand planning > supply planning > release > Buy path (req>PO>receipt) / Make path (WO>production>completion) > FG to inventory > ATP > fulfillment.",e:"Master D2S across 4 modules."},
+{id:32,n:"Supply Chain Planning FDD",c:"Documentation",m:"Planning",p:"Design",t:8,a:1.5,pr:"ROLE:\n"+R+"\n\nTASK:\nCreate FDD for Supply Chain Planning.\n\nCONTEXT:\n"+CTX+"\n\n"+CON+"\n\nCover: Planning Strategy, Planning Central config, Demand Plans (methods, profiles, measures), Supply Plans (methods, options, sourcing rules), Planning Data (hierarchies, item-org, safety stock), Key Decisions (time fences, order modifiers, make vs buy), Integrations, Security, KPIs.",e:"Planning FDD."},
+{id:33,n:"Visio: Full O2C E2E Cross-Functional",c:"Visio Diagram",m:"Cross-Module",p:"Design",t:6,a:1,pr:"ROLE:\n"+R+" Expert in Visio flowcharts.\n\nTASK:\nGenerate MASTER END-TO-END ORDER TO CASH cross-functional flow spanning OM, Inventory, Shipping, Receivables. For executive presentations.\n\nCONTEXT:\n"+CTX+"\n\n"+VCON+"\n\nSWIM LANES (9): Customer, Sales Rep, Order Manager, Credit Analyst, Warehouse, Shipping, AR Clerk, GL Accountant, System\n\n35+ steps: order entry > pricing > credit check > booking > scheduling > reservation > pick release > pick confirm > ship confirm > delivery > ASN > AutoInvoice > AR review > invoice delivery > payment > cash application > revenue recognition > GL posting.\n\nShow ALL module transitions with integration callout boxes.",e:"35+ step master O2C."},
+{id:34,n:"Visio: Full P2P E2E Cross-Functional",c:"Visio Diagram",m:"Cross-Module",p:"Design",t:6,a:1,pr:"ROLE:\n"+R+" Expert in Visio flowcharts.\n\nTASK:\nGenerate MASTER END-TO-END PROCURE TO PAY flow.\n\nCONTEXT:\n"+CTX+"\n\n"+VCON+"\n\nSWIM LANES (10): Requester, Approver, Buyer, Supplier, Receiving, Warehouse, AP Clerk, AP Manager, Treasury, System\n\n35+ steps: requisition > approval > PO > dispatch > receipt > putaway > invoice > matching > hold resolution > approval > payment > GL. Show matching logic and all module transitions.",e:"35+ step master P2P."},
+{id:35,n:"Visio: Plan-to-Produce",c:"Visio Diagram",m:"Cross-Module",p:"Design",t:5,a:0.75,pr:"ROLE:\n"+R+" Expert in Visio flowcharts.\n\nTASK:\nGenerate flow for PLAN TO PRODUCE spanning Planning, Purchasing, Manufacturing, Inventory, Costing.\n\nCONTEXT:\n"+CTX+"\n\n"+VCON+"\n\nSWIM LANES: Planner, Buyer, Supplier, Production Supervisor, Shop Floor, Warehouse, Cost Accountant, System\n\n25+ steps: Supply plan > planned order > Decision: buy/make > procurement path > manufacturing path > receipt > material issue > production > FG completion > inventory > cost close.",e:"Plan-to-produce across 5 modules."},
+{id:36,n:"Visio: Record-to-Report (SCM)",c:"Visio Diagram",m:"Cross-Module",p:"Design",t:5,a:0.75,pr:"ROLE:\n"+R+" Expert in Visio flowcharts.\n\nTASK:\nGenerate flow for SCM RECORD TO REPORT showing period close sequence.\n\nCONTEXT:\n"+CTX+"\n\n"+VCON+"\n\nSWIM LANES: Inventory Accountant, Cost Accountant, AP Manager, AR Manager, GL Accountant, Controller, System\n\nSequence (show dependencies):\n1. Inventory period close (cutoff, pending resolved)\n2. Cost processing (rollup, update, distribution)\n3. AP close (accruals, uninvoiced receipts)\n4. AR close (revenue recognition)\n5. Create Accounting (subledger > GL)\n6. GL journal import/posting\n7. Reconciliation (subledger vs GL)\n8. Period close\n\n20+ steps.",e:"SCM R2R with period close dependencies."},
+{id:37,n:"Data Migration Strategy",c:"Documentation",m:"Cross-Module",p:"Build",t:12,a:2.5,pr:"ROLE:\n"+R+"\n\nTASK:\nCreate Data Migration Strategy.\n\nCONTEXT:\n"+CTX+"\n\n"+CON+"\n\n10 objects (Suppliers, Customers, Items, BOMs, On-hand, Open POs, Open SOs, AP/AR Balances, Costs, Planning Data): Source, Target Module, FBDI Template Name (exact), Volume, Method, Complexity. Data Quality Strategy. Migration Architecture. FBDI Mapping Guide (top 10). Mock Testing (1/2/3). Cutover Migration Plan. Risk Register.",e:"Migration strategy for 10+ objects."},
+{id:38,n:"Cutover Plan (50+ Tasks)",c:"Cutover",m:"Cross-Module",p:"Deploy",t:10,a:2,pr:"ROLE:\n"+R+"\n\nTASK:\nCreate Cutover Plan.\n\nCONTEXT:\n"+CTX+"\n\n"+CON+"\n\nT-minus timeline (T-30 to T+5). 50+ tasks: CUT-001 | Name | Module | Owner | Duration | Predecessor | Start | Completion Criteria | Rollback Step. Go/No-Go Framework. Hypercare Plan. Rollback Plan with triggers.",e:"50+ task cutover plan."},
+{id:39,n:"Integration Design (8 Interfaces)",c:"Documentation",m:"Cross-Module",p:"Design",t:8,a:1.5,pr:"ROLE:\n"+R+"\n\nTASK:\nCreate Integration Design for 8 interfaces.\n\nCONTEXT:\n"+CTX+"\n\n"+CON+"\n\nPer interface: INT-SCM-001 | Name | Source/Target | Direction | Pattern (FBDI/REST/SOAP/BIP) | Frequency | Data Mapping | Error Handling | Security | Monitoring.\n\n8 interfaces: Supplier Sync, Item Sync, PO Export, Receipt Confirm, Invoice Import, Inv Balance Extract, SO Import, WMS Shipment.",e:"8 interface designs."},
+{id:40,n:"Weekly Status Report Generator",c:"Reporting",m:"Cross-Module",p:"Build",t:3,a:0.5,pr:"ROLE:\nSenior PM on Oracle Fusion Cloud SCM implementation.\n\nTASK:\nTransform raw bullet notes into polished weekly status report.\n\nCONTEXT:\nFor client sponsor and steering committee. Must be concise, professional, action-oriented.\n\nCONSTRAINTS:\n- Max 2 pages\n- RAG status indicators\n- Flag decisions needed\n\nFORMAT:\n1. Executive Summary (3-4 sentences)\n2. Health: [Green/Amber/Red] with justification\n3. Accomplishments (3-5 bullets)\n4. Next Week (3-5 bullets)\n5. Risks/Issues: ID | Description | Impact | Probability | Mitigation | Owner | Date\n6. Module Progress: Module | Phase | % | RAG | Note\n7. Milestones: Milestone | Planned | Forecast | Status\n8. Decisions Required\n\n[PASTE YOUR NOTES HERE]",e:"Polished status report."},
+{id:41,n:"SIT Test Scripts (10 Cross-Module)",c:"Testing",m:"Cross-Module",p:"Test",t:14,a:2.5,pr:"ROLE:\nSenior Test Lead.\n\nTASK:\nCreate 10 SIT scripts for cross-module E2E flows. TC-SIT-001 format. 15-25 steps each crossing modules.\n\n10 scenarios: O2C full, P2P full, Plan-to-Produce, Procure-for-Mfg, Drop Ship, Return to Supplier, RMA, Interorg+Costing, Inv-to-GL Reconciliation, Master Data Sync E2E.",e:"10 SIT scripts."},
+{id:42,n:"Security Role Matrix (30+)",c:"Documentation",m:"Cross-Module",p:"Build",t:6,a:1,pr:"ROLE:\n"+R+"\n\nTASK:\nCreate Security Role Matrix with SoD analysis.\n\n"+CON+"\n\n30+ roles across OM (4), Procurement (4), Inventory (4), Manufacturing (3), Planning (3), AR (3), AP (3), Costing (2), Cross-Module (4). Per role: Name | Code | Module | Description | Key Duties | Job Title. Include SoD conflict matrix.",e:"30+ roles with SoD matrix."},
+{id:43,n:"Deployment Plan",c:"Cutover",m:"Cross-Module",p:"Deploy",t:8,a:1.5,pr:"ROLE:\n"+R+"\n\nTASK:\nCreate Deployment Plan.\n\n"+CON+"\n\nEnvironment Landscape (Dev>Test>PreProd>Prod), Release Types, 30+ Checklist Items (pre/during/post), Oracle Quarterly Update Strategy, Roles, Rollback, Communication.",e:"Deployment plan."},
+{id:44,n:"Project Plan / WBS (100+ Tasks)",c:"Project Mgmt",m:"Cross-Module",p:"Analyze",t:8,a:1.5,pr:"ROLE:\nSenior Program Manager.\n\nTASK:\nCreate WBS with 100+ tasks across all Oracle implementation phases.\n\nFORMAT:\nWBS ID (1.0/1.1) | Task | Phase | Module | Duration | Dependencies | Role | Deliverable.\n\n100+ tasks: Plan, Analyze, Design, Build, Test, Deploy, Operate. MS Project/Excel format.",e:"100+ task WBS."},
+{id:45,n:"RACI Matrix (40+ Activities)",c:"Project Mgmt",m:"Cross-Module",p:"Analyze",t:4,a:0.75,pr:"ROLE:\nSenior PM.\n\nTASK:\nCreate RACI. 15 Roles x 40+ Activities. R/A/C/I per cell.\n\nRoles: Sponsor, Steering Committee, PM, Functional Lead, Technical Lead, Module Consultants, Client Owners, Client SMEs, Migration Lead, Integration Lead, Test Lead, Change Mgmt, Training, Security Admin.",e:"40+ activity RACI."},
+{id:46,n:"Risk Register (20 Risks)",c:"Project Mgmt",m:"Cross-Module",p:"Analyze",t:4,a:0.75,pr:"ROLE:\nSenior PM.\n\nTASK:\nCreate Risk Register with 20 pre-populated Oracle SCM risks.\n\nRSK-001 | Category | Description | Probability (1-5) | Impact (1-5) | Score | Triggers | Mitigation | Contingency | Owner | Status.\n\n20 risks: data volume, resource turnover, scope creep, quarterly update impact, legacy integration, user adoption, testing compression, SME availability, security delays, go-live readiness, and 10 more.",e:"20-risk register."},
+{id:47,n:"Gap Resolution Log (15 Gaps)",c:"Project Mgmt",m:"Cross-Module",p:"Analyze",t:4,a:0.75,pr:"ROLE:\n"+R+"\n\nTASK:\nCreate Gap Log with 15 common gaps.\n\nGAP-SCM-001 | Module | Category | Description | Impact | Option A (Config) | Option B (Extension) | Option C (Process) | Recommendation | Effort | Owner | Status.\n\n15 gaps: pricing complexity, PO approval limits, receiving inspection, lot attributes, OSP limits, planning frozen periods, FBDI volumes, OTBI gaps, attachment migration, PO numbering, and 5 more.",e:"15 pre-populated gaps."},
+{id:48,n:"Test Strategy Document",c:"Testing",m:"Cross-Module",p:"Test",t:6,a:1,pr:"ROLE:\nSenior Test Lead.\n\nTASK:\nCreate Test Strategy.\n\n"+CON+"\n\nCover: Test Approach (Unit/SIT/UAT/Performance/Regression), Environment Strategy, Test Data Strategy, Entry/Exit Criteria per phase, Defect Management (severity/priority matrix, lifecycle, escalation), Test Metrics (execution, pass/fail, defect density, Go/No-Go scorecard), Roles, Tools, Risks.",e:"Comprehensive test strategy."},
+{id:49,n:"Test Execution Tracker (Excel)",c:"Testing",m:"Cross-Module",p:"Test",t:3,a:0.5,pr:"ROLE:\nSenior Test Lead.\n\nTASK:\nCreate Test Tracker template.\n\n4 sheets:\n1. Dashboard: totals by module, status summary, formulas (Red<50%, Yellow 50-80%, Green>80%)\n2. Test Log: ID | Module | Scenario | Priority | Tester | Date | Status | Defect ID\n3. Defect Log: DEF-001 | Test Case | Severity (1-4) | Description | Steps | Expected vs Actual | Assigned | Status | Root Cause\n4. Daily Status: Date | Planned | Executed | Pass | Fail | Blocked | Cumulative %\n\nPre-populate 20 synthetic test cases.",e:"Complete tracker with formulas."},
+{id:50,n:"Regression Test Pack (15 Scripts)",c:"Testing",m:"Cross-Module",p:"Test",t:8,a:1.5,pr:"ROLE:\nSenior Test Lead.\n\nTASK:\nCreate 15 Regression Scripts for post-quarterly-update.\n\n8-10 steps each: 1. Item creation, 2. Req/approval, 3. PO, 4. Receipt, 5. AP invoice, 6. AP payment, 7. SO, 8. Pick/ship, 9. AR invoice, 10. AR receipt, 11. Inv transfer, 12. WO, 13. Planning, 14. Cost rollup, 15. Period close.",e:"15 regression scripts."},
+{id:51,n:"QA Phase Gate Checklist (60 Items)",c:"Testing",m:"Cross-Module",p:"Test",t:3,a:0.5,pr:"ROLE:\nSenior QA Lead.\n\nTASK:\nCreate QA Checklists for 4 transitions (15 items each):\n- Design>Build\n- Build>SIT\n- SIT>UAT\n- UAT>Go-Live\n\nPer item: Checklist Item | Module | Owner | Status | Evidence Required | Notes.",e:"60-item checklist."},
+{id:52,n:"MD050 - Data Conversion Design",c:"Documentation",m:"Cross-Module",p:"Design",t:6,a:1,pr:"ROLE:\n"+R+"\n\nTASK:\nCreate MD050 for 10 objects.\n\n"+CON+"\n\nPer object: CV-SCM-001 | Source | Target | FBDI Template (exact name) | Volume | 20+ field mappings with transformations | Validation Rules | Load Sequence | Reconciliation.\n\nObjects: Items, Categories, Suppliers/Sites, Customers/Sites, On-Hand, Open POs, Open SOs, BOMs, Costs, Price Lists.",e:"10 conversion designs."},
+{id:53,n:"CV040 - Configuration Design (60+)",c:"Documentation",m:"Cross-Module",p:"Design",t:5,a:1,pr:"ROLE:\n"+R+"\n\nTASK:\nCreate CV040.\n\n"+CON+"\n\n60+ items by module: Common/Enterprise, Inventory, Procurement, OM, Manufacturing, Planning, Costing. Per item: CFG-SCM-001 | Module | Setup Task | Navigation Path | Business Decision | Client Value | Default | Notes.",e:"60+ config decisions."},
+{id:54,n:"FBDI Quick Reference (15 Templates)",c:"Documentation",m:"Cross-Module",p:"Build",t:4,a:0.75,pr:"ROLE:\n"+R+"\n\nTASK:\nCreate Quick Reference for 15 FBDI templates.\n\nPer template: Exact Oracle Name (e.g., EgpItemsImportTemplate.xlsm) | Purpose | Module | Mandatory Columns | Common Errors/Solutions | Validation Steps | Load Sequence.\n\nTemplates: Items, Categories, BOMs, Suppliers, Supplier Sites, Customers, Customer Sites, Price Lists, On-Hand, POs, SOs, Standard Costs, Item Relationships, Item Org Assignment, Receipt Accounting.",e:"15 FBDI guides."},
+{id:55,n:"End User Training Guide",c:"Documentation",m:"Cross-Module",p:"Deploy",t:8,a:1.5,pr:"ROLE:\nSenior Oracle Fusion Cloud Training Specialist.\n\nTASK:\nCreate End User Training Guide for [MODULE].\n\nCONSTRAINTS:\n- Simple non-technical language\n- Exact Oracle navigation with step numbers\n- Include [SCREENSHOT: description] markers\n\nFORMAT:\n1. Introduction\n2. Navigation Overview\n3. Task 1 (10-15 steps with navigation)\n4. Task 2 (10-15 steps)\n5. Task 3 (inquiry/reporting)\n6. Quick Reference Card\n7. FAQ (10 questions)\n8. Glossary",e:"Complete training guide."},
+{id:56,n:"Hypercare Plan (4-Tier)",c:"Cutover",m:"Cross-Module",p:"Deploy",t:5,a:1,pr:"ROLE:\n"+R+"\n\nTASK:\nCreate Hypercare Plan.\n\n"+CON+"\n\nDuration (4-6 weeks), 4-Tier Support (L1-L4), Team/Coverage table, Severity Matrix with SLAs (Sev1: 1hr, Sev2: 4hr, Sev3: 8hr, Sev4: 24hr), 10 Known Issues, Escalation Matrix, Steady-State Transition, Exit Criteria.",e:"Hypercare plan."},
+{id:57,n:"Steering Committee Deck (10 Slides)",c:"Reporting",m:"Cross-Module",p:"Build",t:4,a:0.75,pr:"ROLE:\nSenior PM.\n\nTASK:\nCreate 10-slide SteerCo template.\n\nSlides: 1. Title, 2. Executive Summary, 3. Health Dashboard (5 RAGs), 4. Milestone Timeline, 5. Module Progress, 6. Accomplishments, 7. Risks/Issues, 8. Decisions, 9. Look Ahead, 10. Appendix.\n\nProvide exact content structure per slide.",e:"10-slide template."},
+{id:58,n:"Reporting Matrix (25+ Reports)",c:"Reporting",m:"Cross-Module",p:"Design",t:6,a:1,pr:"ROLE:\n"+R+"\n\nTASK:\nCreate Reporting Matrix.\n\nRPT-SCM-001 | Name | Module | Purpose | Type (OTBI/BIP/Custom) | Parameters | Columns | Frequency | Audience | Seeded (Y/N + path) | Custom Dev | Priority.\n\n25+ reports across OM, Procurement, Inventory, Manufacturing, Planning, Costing, AP/AR.",e:"25+ report definitions."},
+{id:59,n:"Meeting Minutes Generator",c:"Project Mgmt",m:"Cross-Module",p:"Analyze",t:2,a:0.25,pr:"ROLE:\nProject Coordinator.\n\nTASK:\nTransform rough notes into professional minutes.\n\nCONSTRAINTS:\n- Professional, concise\n- Highlight blockers\n- Action items need owners and dates\n\nFORMAT:\n1. Title\n2. Date/Time\n3. Attendees\n4. Agenda\n5. Discussion Points (2-3 sentences each)\n6. Decisions (with owner)\n7. Action Items: AI-001 | Description | Owner | Due | Priority\n8. Parking Lot\n9. Next Meeting\n\n[PASTE YOUR NOTES HERE]",e:"Professional minutes."},
+{id:60,n:"Lessons Learned (20 Pre-populated)",c:"Project Mgmt",m:"Cross-Module",p:"Operate",t:3,a:0.5,pr:"ROLE:\nSenior PM.\n\nTASK:\nCreate Lessons Learned with 20 Oracle Cloud SCM lessons.\n\nLL-001 | Phase | Category | Description | Impact | Recommendation.\n\n20 lessons covering: migration timing, config docs, testing data, integration complexity, user adoption, quarterly updates, security iteration, late reporting requirements, and more. Metrics Summary. Portfolio Recommendations.",e:"20 pre-populated lessons."},
+{id:61,n:"Email Templates (8)",c:"Project Mgmt",m:"Cross-Module",p:"Analyze",t:1,a:0.15,pr:"ROLE:\nSenior PM.\n\nTASK:\nGenerate 8 email templates.\n\nPer email: Subject, To/Cc guidance, body with [PLACEHOLDERS].\n\n8 templates: 1. Workshop Invitation, 2. FDD Review, 3. Data Readiness, 4. SIT Kickoff, 5. UAT Kickoff, 6. Go/No-Go Meeting, 7. Go-Live Announcement, 8. Hypercare Summary.",e:"8 templates."},
+{id:62,n:"Jira/ADO Ticket Templates (5 Types)",c:"Project Mgmt",m:"Cross-Module",p:"Build",t:3,a:0.5,pr:"ROLE:\nSenior PM.\n\nTASK:\nCreate 5 ticket templates with 3 examples each.\n\n1. Config Task: [MODULE] - Configure [Feature]\n2. Defect: [MODULE] - [Description] - [Severity]\n3. Data Migration: [OBJECT] - [FBDI] - [Phase]\n4. Integration: [INT-ID] - [Interface] - [Phase]\n5. User Story: As a [role], I want to [action in Fusion] so that [outcome]",e:"5 templates, 15 examples."},
+{id:63,n:"Change Request Template",c:"Project Mgmt",m:"Cross-Module",p:"Build",t:2,a:0.5,pr:"ROLE:\nSenior PM.\n\nTASK:\nCreate CR template.\n\nCR-001 | Requester | Description | Reason | Modules | Impact Assessment (schedule/effort/cost/risk) | Dependencies | 3 Options (with recommendation) | Approvals | Implementation Plan.\n\nExample: Adding Advanced Pricing (out of scope).",e:"CR template."},
+{id:64,n:"Sprint Planning Template",c:"Project Mgmt",m:"Cross-Module",p:"Build",t:3,a:0.5,pr:"ROLE:\nAgile Coach.\n\nTASK:\nCreate Sprint template for hybrid Agile-Waterfall.\n\nSprint Overview | Backlog (Task | Module | Type | Points | Assigned | Status) | Capacity (Member | Role | Hours | Utilization) | Ceremonies.\n\nSample sprint with 15 tasks for Build phase.",e:"Sprint template."},
+{id:65,n:"Approval Rules Config Guide",c:"Documentation",m:"Cross-Module",p:"Build",t:4,a:0.75,pr:"ROLE:\n"+R+"\n\nTASK:\nCreate Approval Rules Config Guide.\n\n"+CON+"\n\nCover: Requisitions (hierarchy, amount, category), POs (amount, type, change orders), AP Invoices (workflow, thresholds, holds), Inventory Adjustments (value, cycle count).\n\nPer rule: Name | Business Rule | Oracle Config | Navigation | 5-8 Setup Steps | Test Scenario.",e:"Approval config for 4 modules."},
+{id:66,n:"Oracle SCM Knowledge Check (50 Q&A)",c:"Documentation",m:"Cross-Module",p:"Operate",t:3,a:0.5,pr:"ROLE:\n"+R+"\n\nTASK:\nCreate 50 knowledge questions.\n\n10 per module (OM, Procurement, Inventory, Manufacturing, Cross-Module). Each: 3 Basic, 4 Intermediate, 3 Advanced.\n\nQ-OM-001 | Difficulty | Question | Answer (3-5 sentences) | Key Concept | Cloud vs EBS note.",e:"50-question bank."},
+{id:67,n:"Meta: Generate Any Document",c:"Documentation",m:"Cross-Module",p:"Design",t:0,a:0.5,pr:"ROLE:\n"+R+"\n\nTASK:\nGenerate any Oracle SCM document based on my specs.\n\nBefore generating, ask:\n1. Document Type (FDD/BRD/BR100/MD050/CV040/Test Script/Process Flow/Training Guide)\n2. Module\n3. Phase\n4. Focus Area\n5. Client Context\n6. Specific sections\n\n"+CON+"\n\nAdapt format to document type. Include standard sections for that type.",e:"Universal document generator."},
+{id:68,n:"Meta: Notes to Professional Doc",c:"Documentation",m:"Cross-Module",p:"Build",t:0,a:0.25,pr:"ROLE:\n"+R+"\n\nTASK:\nTransform rough notes into professional document.\n\n1. Identify document type\n2. Organize with section numbers\n3. Expand to complete sentences\n4. Add Oracle Fusion terminology and navigation\n5. Flag gaps as [TO BE CONFIRMED]\n6. Add standard sections\n7. Format for Word\n\n[PASTE YOUR NOTES HERE]",e:"Notes transformer."},
+{id:69,n:"Meta: Create Any Visio Flow",c:"Visio Diagram",m:"Cross-Module",p:"Design",t:0,a:0.5,pr:"ROLE:\n"+R+" Expert in Visio cross-functional flowcharts.\n\nTASK:\nGenerate a Visio-ready swim lane process flow for any Oracle SCM process I describe.\n\nCONTEXT:\nOutput used for professional Visio diagram in design deliverables.\n\n"+VCON+"\n\nFORMAT:\n| Step # | Step Name | Swim Lane | Shape Type | Description | Oracle Navigation | Yes Path | No Path | Integration | Data Object |\n\nAfter table:\n1. Swim lane order with color coding\n2. Integration callout boxes\n3. Exception branches\n4. Summary (total steps, decisions, integrations)\n\nEXAMPLE:\n| 1 | Process Starts | N/A | Start | Beginning of process | N/A | N/A | N/A | N/A | N/A |\n\n[DESCRIBE YOUR PROCESS HERE]",e:"Universal Visio flow generator."},
+{id:70,n:"Meta: Gap Analysis",c:"Documentation",m:"Cross-Module",p:"Analyze",t:0,a:0.5,pr:"ROLE:\n"+R+"\n\nTASK:\nAnalyze a gap and provide resolution options.\n\nCONSTRAINTS:\n- Consider Oracle quarterly update impact\n- Recommend lowest maintenance option\n- Include effort estimates\n\nFORMAT:\n1. Classification (Functional/Technical/Process/Reporting/Integration)\n2. Severity (Critical/High/Medium/Low) with justification\n3. Root Cause in Oracle Fusion Cloud\n4. Option A: Configuration approach\n5. Option B: Extension (VBCS/BIP/OTBI/Groovy)\n6. Option C: Process workaround\n7. Recommendation with rationale\n8. Effort per option\n9. Risk per option\n10. Oracle Update Impact\n\n[DESCRIBE YOUR GAP HERE]",e:"Gap analysis with 3 options."}
+];
+
+// ═══ STATE ═══
+let S={tab:"dashboard",fC:"All",fM:"All",fP:"All",q:"",openId:null,admin:false,editing:null,prompts:[...DP]};
+
+// ═══ HELPERS ═══
+function badge(t,cl){return '<span class="badge" style="background:'+cl+'15;color:'+cl+'">'+t+'</span>'}
+function ccn(c){return S.prompts.filter(d=>d.c===c).length}
+function mcn(m){return S.prompts.filter(d=>d.m===m).length}
+function fl(){return S.prompts.filter(d=>{
+  if(S.fC!=="All"&&d.c!==S.fC)return false;
+  if(S.fM!=="All"&&d.m!==S.fM)return false;
+  if(S.fP!=="All"&&d.p!==S.fP)return false;
+  if(S.q){let s=S.q.toLowerCase();if(!d.n.toLowerCase().includes(s)&&!d.c.toLowerCase().includes(s)&&!d.m.toLowerCase().includes(s))return false;}
+  return true;
+})}
+
+// ═══ ACTIONS ═══
+function setTab(t){S.tab=t;S.openId=null;render()}
+function setF(k,v){S[k]=v;render()}
+function clrF(){S.fC="All";S.fM="All";S.fP="All";S.q="";render()}
+function toggle(id){S.openId=S.openId===id?null:id;render()}
+function toggleAdmin(){S.admin=!S.admin;render()}
+function startEdit(id){S.editing=id==="new"?"new":S.prompts.find(p=>p.id===id);render()}
+function cancelEdit(){S.editing=null;render()}
+function saveEdit(){
+  let f={};
+  f.id=+document.getElementById('ef-id').value;
+  f.n=document.getElementById('ef-n').value;
+  f.c=document.getElementById('ef-c').value;
+  f.m=document.getElementById('ef-m').value;
+  f.p=document.getElementById('ef-p').value;
+  f.t=+document.getElementById('ef-t').value;
+  f.a=+document.getElementById('ef-a').value;
+  f.pr=document.getElementById('ef-pr').value;
+  f.e=document.getElementById('ef-e').value;
+  if(S.editing==="new"){if(!f.id)f.id=Math.max(...S.prompts.map(p=>p.id),0)+1;S.prompts.push(f)}
+  else S.prompts=S.prompts.map(p=>p.id===f.id?f:p);
+  S.prompts.sort((a,b)=>a.id-b.id);
+  S.editing=null;render();
+}
+function delPrompt(id){if(confirm("Delete prompt #"+id+"?")){S.prompts=S.prompts.filter(p=>p.id!==id);render()}}
+function resetAll(){if(confirm("Reset to original 70 prompts?")){S.prompts=[...DP];render()}}
+
+function copyPr(id){
+  let d=S.prompts.find(p=>p.id===id);
+  navigator.clipboard.writeText(d.pr);
+  let b=document.getElementById('cp-'+id);
+  b.textContent='Copied!';b.style.background='#059669';
+  setTimeout(()=>{b.textContent='Copy Prompt';b.style.background='#A100FF'},1500);
+}
+function openAI(id,name,url){
+  let d=S.prompts.find(p=>p.id===id);
+  navigator.clipboard.writeText(d.pr);
+  let b=document.getElementById('ai-'+id+'-'+name.replace(/\s/g,''));
+  b.textContent='Opening...';b.style.background='#059669';
+  setTimeout(()=>{b.textContent=name;b.style.background=''},1500);
+  window.open(url,'_blank');
+}
+
+// ═══ CARD HTML ═══
+function cardH(d){
+  let sv=d.t-d.a,pc=d.t>0?Math.round(sv/d.t*100):0,isO=S.openId===d.id;
+  let h='<div class="card"><div class="card-h" onclick="toggle('+d.id+')">';
+  h+='<div class="card-num" style="background:'+(CL[d.c]||'#666')+'">'+d.id+'</div>';
+  h+='<div style="flex:1;min-width:0"><div class="card-name">'+d.n+'</div>';
+  h+='<div>'+badge(d.c,CL[d.c]||'#666')+badge(d.m,'#374151')+badge(d.p,'#6366f1')+(d.t>0?badge(pc+'% faster','#059669'):'')+'</div></div>';
+  h+='<span class="arrow">'+(isO?'&#9650;':'&#9660;')+'</span></div>';
+  if(isO){
+    h+='<div class="card-b"><div class="btn-row"><span class="btn-label">Prompt \u2014 Copy or Open in AI</span>';
+    if(S.admin)h+='<div class="admin-btns"><button class="edit-btn" onclick="event.stopPropagation();startEdit('+d.id+')">Edit</button><button class="del-btn" onclick="event.stopPropagation();delPrompt('+d.id+')">Delete</button></div>';
+    h+='</div><div class="ai-btns">';
+    h+='<button class="ai-btn" id="cp-'+d.id+'" style="background:#A100FF" onclick="event.stopPropagation();copyPr('+d.id+')">Copy Prompt</button>';
+    AI.forEach(a=>{h+='<button class="ai-btn" id="ai-'+d.id+'-'+a.n.replace(/\s/g,'')+'" style="background:'+a.bg+'" onclick="event.stopPropagation();openAI('+d.id+',\''+a.n+'\',\''+a.u+'\')">'+a.n+'</button>'});
+    h+='</div>';
+    h+='<pre class="prompt-box">'+d.pr.replace(/</g,'&lt;').replace(/>/g,'&gt;')+'</pre>';
+    if(d.t>0)h+='<div class="metrics"><span>Manual: <b style="color:var(--red)">'+d.t+'h</b></span><span>Copilot: <b style="color:var(--green)">'+d.a+'h</b></span><span>Saved: <b style="color:var(--acn)">'+sv+'h ('+pc+'%)</b></span></div>';
+    h+='<div class="output"><b>Output:</b> '+d.e+'</div></div>';
+  }
+  h+='</div>';return h;
+}
+
+// ═══ EDIT FORM ═══
+function editFormH(){
+  let p=S.editing==="new"?{id:0,n:"",c:"Documentation",m:"Cross-Module",p:"Design",t:0,a:0,pr:"",e:""}:S.editing;
+  let h='<div class="edit-form"><h3>'+(S.editing==="new"?"Add":"Edit")+' Prompt</h3><div class="edit-grid">';
+  h+='<div><label>Name</label><input id="ef-n" value="'+p.n.replace(/"/g,'&quot;')+'"></div>';
+  h+='<div><label>ID</label><input id="ef-id" type="number" value="'+p.id+'"></div>';
+  h+='<div><label>Category</label><select id="ef-c">'+CT.map(c=>'<option'+(c===p.c?' selected':'')+'>'+c+'</option>').join('')+'</select></div>';
+  h+='<div><label>Module</label><select id="ef-m">'+MD.map(m=>'<option'+(m===p.m?' selected':'')+'>'+m+'</option>').join('')+'</select></div>';
+  h+='<div><label>Phase</label><select id="ef-p">'+PH.map(x=>'<option'+(x===p.p?' selected':'')+'>'+x+'</option>').join('')+'</select></div>';
+  h+='<div style="display:flex;gap:6px"><div style="flex:1"><label>Manual Hrs</label><input id="ef-t" type="number" step="0.5" value="'+p.t+'"></div><div style="flex:1"><label>AI Hrs</label><input id="ef-a" type="number" step="0.25" value="'+p.a+'"></div></div>';
+  h+='</div><div><label>Prompt Text</label><textarea id="ef-pr">'+p.pr.replace(/</g,'&lt;').replace(/>/g,'&gt;')+'</textarea></div>';
+  h+='<div style="margin-bottom:8px"><label>Output Description</label><input id="ef-e" value="'+p.e.replace(/"/g,'&quot;')+'"></div>';
+  h+='<button class="save-btn" onclick="saveEdit()">Save</button> <button class="cancel-btn" onclick="cancelEdit()">Cancel</button></div>';
+  return h;
+}
+
+// ═══ RENDER ═══
+function render(){
+  let tM=S.prompts.reduce((s,d)=>s+d.t,0),tA=S.prompts.reduce((s,d)=>s+d.a,0),tS=tM-tA;
+  let vc=S.prompts.filter(d=>d.c==="Visio Diagram").length;
+  let mxC=Math.max(...CT.map(ccn)),mxM=Math.max(...MD.map(mcn));
+  let f=fl();
+
+  let h='<div class="hdr"><div class="brands">';
+  h+='<span class="acn">accen<span style="position:relative;display:inline-block">t<span class="gt" style="left:50%;transform:translateX(-50%)">></span></span>ure</span>';
+  h+='<span class="sep"></span><span class="ora-text">ORACLE</span><span style="font-size:10px;font-weight:600;opacity:.7;color:#fff">Fusion Cloud SCM</span>';
+  h+='<span class="sep"></span><span class="cp-text">Microsoft 365 Copilot</span>';
+  h+='<span class="sep"></span><span class="ai-badge">&#10022; AI-POWERED</span></div>';
+  h+='<div class="hdr-row"><div><h1>Delivery Copilot Prompt Library</h1>';
+  h+='<p>'+S.prompts.length+' prompts | '+vc+' Visio generators | Multi-AI: Copilot, ChatGPT, Claude, Gemini</p></div>';
+  h+='<button class="admin-btn'+(S.admin?' on':'')+'" onclick="toggleAdmin()">'+(S.admin?'Exit Admin':'Admin')+'</button></div></div>';
+
+  if(S.admin){
+    h+='<div class="admin-bar"><span class="b">Admin Mode</span><span>Add, edit, delete. Changes are instant.</span>';
+    h+='<div class="actions"><button class="add-btn" onclick="startEdit(\'new\')">+ Add Prompt</button>';
+    h+='<button class="reset-btn" onclick="resetAll()">Reset Defaults</button></div></div>';
+  }
+  if(S.editing)h+=editFormH();
+
+  h+='<div class="tabs">';
+  [["dashboard","Dashboard"],["library","All Prompts"],["visio","Visio Flows"],["guide","Guide"]].forEach(function(x){
+    h+='<button class="tab'+(S.tab===x[0]?' on':'')+'" onclick="setTab(\''+x[0]+'\')">'+x[1]+'</button>';
+  });
+  h+='</div>';
+
+  // DASHBOARD
+  if(S.tab==="dashboard"){
+    h+='<div class="stats">';
+    [{l:"Prompts",v:S.prompts.length,cl:"var(--acn)"},{l:"Visio",v:vc,cl:"var(--blue)"},{l:"Manual",v:tM+"h",cl:"var(--red)"},{l:"Copilot",v:tA+"h",cl:"var(--green)"},{l:"Saved",v:tS+"h",cl:"var(--mid)"}].forEach(function(s){
+      h+='<div class="sc" style="border-top-color:'+s.cl+'"><div class="n" style="color:'+s.cl+'">'+s.v+'</div><div class="l">'+s.l+'</div></div>';
+    });
+    h+='</div><div class="g2"><div class="sec"><h3>By Category</h3>';
+    CT.forEach(function(c){let n=ccn(c);h+='<div class="bar-r"><div class="bar-l">'+c+'</div><div class="bar-bg"><div class="bar-f" style="width:'+((n/mxC)*100)+'%;background:'+(CL[c]||'#666')+'"><span>'+n+'</span></div></div></div>'});
+    h+='</div><div class="sec"><h3>By Module</h3>';
+    MD.forEach(function(m){let n=mcn(m);h+='<div class="bar-r"><div class="bar-l">'+m+'</div><div class="bar-bg"><div class="bar-f" style="width:'+((n/mxM)*100)+'%;background:var(--acn)"><span>'+n+'</span></div></div></div>'});
+    h+='</div></div>';
+  }
+
+  // LIBRARY
+  if(S.tab==="library"){
+    h+='<input class="search" placeholder="Search prompts..." value="'+S.q+'" oninput="S.q=this.value;render()">';
+    h+='<div class="filters">';
+    h+='<select onchange="setF(\'fC\',this.value)"><option value="All">All Categories</option>';CT.forEach(function(c){h+='<option value="'+c+'"'+(S.fC===c?' selected':'')+'>'+c+' ('+ccn(c)+')</option>'});h+='</select>';
+    h+='<select onchange="setF(\'fM\',this.value)"><option value="All">All Modules</option>';MD.forEach(function(m){h+='<option value="'+m+'"'+(S.fM===m?' selected':'')+'>'+m+' ('+mcn(m)+')</option>'});h+='</select>';
+    h+='<select onchange="setF(\'fP\',this.value)"><option value="All">All Phases</option>';PH.forEach(function(p){h+='<option value="'+p+'"'+(S.fP===p?' selected':'')+'>'+p+'</option>'});h+='</select>';
+    if(S.fC!=="All"||S.fM!=="All"||S.fP!=="All"||S.q)h+='<button class="clr-btn" onclick="clrF()">Clear</button>';
+    h+='</div><div class="count">'+f.length+' of '+S.prompts.length+'</div>';
+    f.forEach(function(d){h+=cardH(d)});
+    if(!f.length)h+='<div style="text-align:center;padding:16px;color:#9ca3af">No matches.</div>';
+  }
+
+  // VISIO
+  if(S.tab==="visio"){
+    h+='<div class="visio-intro"><h2>Visio Process Flow Generators</h2>';
+    h+='<p>'+vc+' prompts for Oracle Fusion Cloud standard cross-functional swim lane diagrams. Each follows the structured table format with exact Oracle navigation paths, Decision branching, and integration callouts.</p>';
+    h+='<p style="margin-top:3px;font-size:9px;opacity:.8">Copy prompt > Paste in AI tool > Get structured table > Open Visio > Create swim lanes > Add shapes per table</p></div>';
+    MD.forEach(function(m){let vp=S.prompts.filter(d=>d.c==="Visio Diagram"&&d.m===m);if(!vp.length)return;
+      h+='<div class="mod-hdr">'+m+' \u2014 '+vp.length+' flow'+(vp.length>1?'s':'')+'</div>';
+      vp.forEach(function(d){h+=cardH(d)});
+    });
+  }
+
+  // GUIDE
+  if(S.tab==="guide"){
+    h+='<div class="sec"><h2 style="font-size:13px;font-weight:800;margin-bottom:8px;border-bottom:3px solid var(--acn);padding-bottom:4px">Quick Start</h2>';
+    [{n:"1",t:"Browse",d:"Use All Prompts or Visio Flows. Search and filter."},{n:"2",t:"Choose Your AI",d:"Buttons for M365 Copilot, ChatGPT, Claude, Gemini. Click to copy AND open."},{n:"3",t:"Customize",d:"Replace [CLIENT NAME], [PROJECT NAME] and other placeholders."},{n:"4",t:"Review",d:"Standard prompts (Role>Task>Context>Constraints>Format>Example) produce 80%+ usable output."},{n:"5",t:"For Visio",d:"Output is a structured table. Open Visio > Cross-Functional Flowchart > Add shapes per table."},{n:"6",t:"Admin",d:"Click Admin to add, edit, delete prompts."}].forEach(function(s){
+      h+='<div class="step"><div class="step-n">'+s.n+'</div><div><div class="step-t">'+s.t+'</div><div class="step-d">'+s.d+'</div></div></div>';
+    });
+    h+='</div>';
+    h+='<div class="sec"><h2 style="font-size:13px;font-weight:800;margin-bottom:8px;border-bottom:3px solid var(--acn);padding-bottom:4px">Prompt Engineering Standard</h2>';
+    h+='<p style="font-size:9.5px;color:#4b5563;margin-bottom:6px">Every prompt follows a 6-component standard:</p>';
+    ["Role/Persona \u2014 Senior Oracle Fusion Cloud SCM Architect (25+ years, 15+ implementations)","Task/Goal \u2014 Clear action verb (create, generate, transform)","Context \u2014 Client type, project phase, methodology, audience","Constraints \u2014 Oracle Cloud terminology, synthetic data, navigation paths, format rules","Format/Output \u2014 Exact section structure, table columns, deliverable specs","Examples \u2014 Sample output excerpts showing expected quality"].forEach(function(t,i){
+      h+='<div style="display:flex;gap:4px;margin-bottom:2px;font-size:9.5px"><span style="color:var(--acn);font-weight:800">'+(i+1)+'.</span><span>'+t+'</span></div>';
+    });
+    h+='</div>';
+    h+='<div class="sec"><h2 style="font-size:13px;font-weight:800;margin-bottom:6px;border-bottom:3px solid var(--acn);padding-bottom:4px">Role-Based Sequences</h2>';
+    [{r:"Functional Consultant",s:"BRD > FDD > Visio Flows > BR100 > Training Guide"},{r:"Process Architect",s:"Meta Visio (#69) > Module Flows > E2E Flows (#33-36)"},{r:"Test Lead",s:"Strategy (#48) > UAT > SIT (#41) > Regression (#50) > Tracker (#49)"},{r:"Project Manager",s:"WBS (#44) > RACI (#45) > Status (#40) > SteerCo (#57) > Risk (#46)"},{r:"Data Migration Lead",s:"Strategy (#37) > MD050 (#52) > FBDI (#54) > CV040 (#53)"},{r:"Cutover Lead",s:"Cutover (#38) > Deployment (#43) > Hypercare (#56)"}].forEach(function(r){
+      h+='<div class="role"><h4>'+r.r+'</h4><p>'+r.s+'</p></div>';
+    });
+    h+='</div>';
+  }
+
+  h+='<div class="footer">Oracle SCM Delivery Copilot v6.0 | Accenture | Public Service Oracle | AI-Enabled Delivery Competition 2026</div>';
+  document.getElementById('app').innerHTML=h;
+}
+render();
+</script>
+</body>
+</html>
