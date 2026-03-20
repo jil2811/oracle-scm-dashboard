@@ -20,47 +20,45 @@ body{font-family:'Segoe UI',-apple-system,BlinkMacSystemFont,sans-serif;backgrou
 .hdr h1{font-size:16px;font-weight:800}
 .hdr p{font-size:10px;opacity:.75;margin-top:2px}
 .hdr-row{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:6px}
-.admin-btn{padding:4px 10px;border-radius:4px;border:1px solid rgba(255,255,255,.3);background:transparent;color:#fff;font-size:9px;font-weight:600;cursor:pointer}
-.admin-btn.on{background:rgba(255,255,255,.2)}
-.admin-bar{background:#FEF3C7;border:1px solid #F59E0B;border-radius:6px;padding:8px;margin-bottom:8px;display:flex;gap:6px;align-items:center;flex-wrap:wrap}
-.admin-bar span{font-size:10px;color:#92400E}
-.admin-bar .b{font-weight:700}
-.admin-bar .actions{margin-left:auto;display:flex;gap:4px}
+.gh-link{padding:4px 10px;border-radius:4px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;font-size:9px;font-weight:600;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:4px}
+.gh-link:hover{background:rgba(255,255,255,.2)}
 .tabs{display:flex;gap:2px;margin-bottom:8px;background:#e5e7eb;border-radius:6px;padding:2px}
-.tab{flex:1;padding:7px 0;border:none;border-radius:4px;font-weight:600;font-size:10.5px;cursor:pointer;background:transparent;color:#6b7280}
-.tab.on{background:#fff;color:var(--acn)}
+.tab{flex:1;padding:7px 0;border:none;border-radius:4px;font-weight:600;font-size:10.5px;cursor:pointer;background:transparent;color:#6b7280;transition:all .15s}
+.tab.on{background:#fff;color:var(--acn);box-shadow:0 1px 3px rgba(0,0,0,.08)}
 .stats{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
-.sc{flex:1;min-width:90px;background:#fff;border-radius:6px;padding:8px 10px;text-align:center;border-top:3px solid var(--acn)}
+.sc{flex:1;min-width:90px;background:#fff;border-radius:6px;padding:8px 10px;text-align:center;border-top:3px solid var(--acn);box-shadow:0 1px 3px rgba(0,0,0,.04)}
 .sc .n{font-size:18px;font-weight:800}
 .sc .l{font-size:7.5px;color:#6b7280;font-weight:700;text-transform:uppercase}
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:6px}
-.sec{background:#fff;border-radius:6px;padding:10px}
+@media(max-width:600px){.g2{grid-template-columns:1fr}}
+.sec{background:#fff;border-radius:6px;padding:10px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
 .sec h3{margin:0 0 5px;font-size:10px;font-weight:700}
 .bar-r{display:flex;align-items:center;gap:4px;margin-bottom:3px}
 .bar-l{width:70px;font-size:8.5px;font-weight:600;color:#4b5563;flex-shrink:0}
 .bar-bg{flex:1;background:#f3f4f6;border-radius:3px;height:14px;overflow:hidden}
-.bar-f{height:100%;border-radius:3px;display:flex;align-items:center;justify-content:flex-end;padding-right:3px;min-width:16px;transition:width .3s}
+.bar-f{height:100%;border-radius:3px;display:flex;align-items:center;justify-content:flex-end;padding-right:3px;min-width:16px;transition:width .4s ease}
 .bar-f span{font-size:8px;font-weight:700;color:#fff}
-.search{width:100%;padding:6px 10px;border-radius:5px;border:1px solid #d1d5db;font-size:10.5px;outline:none;margin-bottom:6px}
+.search{width:100%;padding:6px 10px;border-radius:5px;border:1px solid #d1d5db;font-size:10.5px;outline:none;margin-bottom:6px;transition:border-color .2s}
+.search:focus{border-color:var(--acn)}
 .filters{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:6px}
 .filters select{padding:4px 6px;border-radius:4px;border:1px solid #d1d5db;font-size:9px;font-weight:600}
 .clr-btn{padding:4px 6px;border-radius:4px;border:none;background:#fee2e2;color:var(--red);font-size:9px;font-weight:600;cursor:pointer}
 .count{font-size:9px;color:#6b7280;font-weight:600;margin-bottom:4px}
-.card{background:#fff;border-radius:6px;border:1px solid #e5e7eb;margin-bottom:3px;overflow:hidden}
+.card{background:#fff;border-radius:6px;border:1px solid #e5e7eb;margin-bottom:3px;overflow:hidden;transition:box-shadow .15s}
+.card:hover{box-shadow:0 2px 6px rgba(0,0,0,.06)}
 .card-h{padding:7px 9px;cursor:pointer;display:flex;align-items:center;gap:5px}
 .card-num{width:20px;height:20px;border-radius:3px;color:#fff;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;flex-shrink:0}
 .card-name{font-weight:700;font-size:10.5px;color:#1f2937;margin-bottom:1px}
 .badge{display:inline-block;padding:1px 5px;border-radius:8px;font-size:8px;font-weight:700;margin-right:1px}
-.arrow{color:#9ca3af;font-size:10px;flex-shrink:0}
+.arrow{color:#9ca3af;font-size:10px;flex-shrink:0;transition:transform .2s}
+.card.open .arrow{transform:rotate(180deg)}
 .card-b{padding:0 9px 9px;border-top:1px solid #f3f4f6}
 .btn-row{margin-top:5px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:3px;margin-bottom:4px}
 .btn-label{font-size:8px;font-weight:700;color:#4b5563;text-transform:uppercase}
 .ai-btns{display:flex;gap:3px;flex-wrap:wrap}
-.ai-btn{padding:3px 7px;border-radius:3px;border:none;color:#fff;font-size:8.5px;font-weight:600;cursor:pointer}
-.admin-btns{display:flex;gap:3px}
-.edit-btn{padding:2px 6px;border-radius:3px;border:1px solid #d1d5db;background:#fff;font-size:8px;cursor:pointer}
-.del-btn{padding:2px 6px;border-radius:3px;border:1px solid #fca5a5;background:#fff;color:var(--red);font-size:8px;cursor:pointer}
-.prompt-box{margin-top:4px;background:#faf8ff;border:1px solid #e9e5ff;border-radius:4px;padding:7px;font-size:9px;line-height:1.45;white-space:pre-wrap;word-break:break-word;color:#374151;max-height:200px;overflow-y:auto;font-family:Consolas,Monaco,monospace}
+.ai-btn{padding:3px 7px;border-radius:3px;border:none;color:#fff;font-size:8.5px;font-weight:600;cursor:pointer;transition:opacity .15s}
+.ai-btn:hover{opacity:.85}
+.prompt-box{margin-top:4px;background:#faf8ff;border:1px solid #e9e5ff;border-radius:4px;padding:7px;font-size:9px;line-height:1.45;white-space:pre-wrap;word-break:break-word;color:#374151;max-height:200px;overflow-y:auto;font-family:Consolas,Monaco,'Courier New',monospace}
 .metrics{margin-top:3px;display:flex;gap:6px;padding:3px 5px;background:#f9fafb;border-radius:3px;font-size:9px}
 .output{margin-top:3px;padding:3px;background:#f0fdf4;border-radius:3px;font-size:9px;color:#166534}
 .mod-hdr{background:var(--acn);color:#fff;padding:4px 10px;border-radius:4px;font-size:10.5px;font-weight:700;margin:6px 0 3px}
@@ -76,16 +74,6 @@ body{font-family:'Segoe UI',-apple-system,BlinkMacSystemFont,sans-serif;backgrou
 .role p{font-size:9.5px;color:#374151}
 .footer{text-align:center;padding:8px 0;font-size:7.5px;color:#9ca3af}
 .hidden{display:none}
-.edit-form{background:#fff;border-radius:6px;padding:12px;border:2px solid var(--acn);margin-bottom:8px}
-.edit-form h3{font-size:13px;font-weight:700;color:var(--acn);margin-bottom:8px}
-.edit-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:6px}
-.edit-form label{font-size:9px;font-weight:600;display:block;margin-bottom:1px}
-.edit-form input,.edit-form select,.edit-form textarea{padding:5px 6px;border-radius:3px;border:1px solid #d1d5db;font-size:10px;width:100%;box-sizing:border-box}
-.edit-form textarea{height:100px;font-family:Consolas,monospace}
-.save-btn{padding:5px 12px;border-radius:4px;border:none;background:var(--acn);color:#fff;font-weight:700;font-size:10px;cursor:pointer}
-.cancel-btn{padding:5px 12px;border-radius:4px;border:1px solid #d1d5db;background:#fff;font-size:10px;cursor:pointer}
-.add-btn{padding:3px 8px;border-radius:3px;border:none;background:var(--acn);color:#fff;font-size:9px;font-weight:700;cursor:pointer}
-.reset-btn{padding:3px 8px;border-radius:3px;border:1px solid var(--red);background:#fff;color:var(--red);font-size:9px;cursor:pointer}
 </style>
 </head>
 <body>
@@ -110,7 +98,7 @@ const CON="CONSTRAINTS:\n- Do NOT use any real client data\n- Use Oracle Fusion 
 const VCON="CONSTRAINTS:\n- Output MUST be a table: Step # | Step Name | Swim Lane | Shape Type | Description | Oracle Navigation | Yes Path | No Path | Integration | Data Object\n- Shape Types: Start (oval), End (oval), Process (rectangle), Decision (diamond), Document, System (double-line rectangle)\n- Every Decision MUST have Yes AND No paths labeled\n- Every manual step MUST have Oracle Fusion navigation path\n- System steps in 'System (Automated)' swim lane\n- Start with Start oval, end with End oval\n- Minimum 25 steps for E2E processes\n- Use Oracle Fusion Cloud standard terminology\n- After table: (1) Swim lane order top-to-bottom with colors, (2) Integration callout boxes, (3) Exception branches";
 
 // ═══ ALL 70 PROMPTS ═══
-const DP=[
+const PROMPTS=[
 {id:1,n:"O2C Functional Design Document (FDD)",c:"Documentation",m:"Order to Cash",p:"Design",t:8,a:1.5,pr:"ROLE:\n"+R+"\n\nTASK:\nCreate a comprehensive Functional Design Document (FDD) for the Order to Cash (O2C) process in Oracle Fusion Cloud.\n\nCONTEXT:\n"+CTX+" Covers full O2C: Sales Order > Booking > Pick > Ship > AutoInvoice > AR Receipt > Revenue Recognition.\n\n"+CON+"\n\nFORMAT:\n1.0 Document Control (version table, author, approver)\n2.0 Executive Summary\n3.0 Business Requirements Overview (reference BR-OTC-001 through BR-OTC-025)\n4.0 Current State Summary (pain points, manual workarounds)\n5.0 Future State Design\n  5.1 Order Management (order types, holds, pricing, scheduling)\n  5.2 Fulfillment (pick release, shipping, delivery)\n  5.3 Receivables (transaction types, AutoInvoice, receipts, revenue recognition)\n6.0 Configuration Decisions (table: Decision ID | Area | Options | Recommendation)\n7.0 Integration Points (table: INT-ID | Source | Target | Direction | Method)\n8.0 Data Conversion (table: Object | Source | Target FBDI | Volume)\n9.0 Security Roles (table: Role | Module | Duties | Job Title)\n10.0 Reporting Requirements\n11.0 Open Issues and Assumptions\n12.0 Appendix: Field Mappings\n\nEXAMPLE:\n\"5.1.1 Order Types:\\n| Order Type | Description | Workflow | Use Case |\\n| Standard | Standard sales order | Book-Pick-Ship-Invoice | Regular orders |\"",e:"12-section FDD with config decisions, integration matrix, and role mappings."},
 {id:2,n:"O2C Business Requirements Document (BRD)",c:"Documentation",m:"Order to Cash",p:"Analyze",t:10,a:2,pr:"ROLE:\n"+R+"\n\nTASK:\nCreate a comprehensive BRD for Order to Cash.\n\nCONTEXT:\n"+CTX+"\n\n"+CON+"\n\nFORMAT:\n1.0 Document Control\n2.0 Background and Objectives\n3.0 Scope (In: OM, Pricing, Shipping, AR; Out: Advanced Pricing, Channel Rev Mgmt)\n4.0 Stakeholders\n5.0 Business Requirements (minimum 25, format each as):\n  | BR-OTC-001 | [Title] |\n  | Description | [Detail] |\n  | Priority | Must/Should/Could |\n  | Acceptance Criteria | [Measurable] |\n  | Module Impact | [OM/Shipping/AR] |\n6.0 Business Rules (credit checks, approvals, holds, pricing)\n7.0 Reporting (5+ reports)\n8.0 Interfaces\n9.0 Data Migration\n10.0 Non-Functional\n11.0 Assumptions\n12.0 Glossary\n\nEXAMPLE:\n\"BR-OTC-001: Automated Credit Check\\nDescription: System shall auto-check credit limit during booking.\\nPriority: Must Have\\nAcceptance: Orders exceeding limit placed on Credit Check Hold.\"",e:"Full BRD with 25+ requirements."},
 {id:3,n:"O2C Configuration Workbook (BR100)",c:"Documentation",m:"Order to Cash",p:"Build",t:10,a:2,pr:"ROLE:\n"+R+"\n\nTASK:\nCreate BR100 Configuration Workbook for O2C.\n\nCONTEXT:\n"+CTX+"\n\n"+CON+"\n\nFORMAT:\nTable: Config ID | Module | Setup Area | Item | Oracle Navigation Path | Setup Task | Value | Client Decision | Dependencies | Notes\n\n40+ items across:\n- Order Management: Order Types, Holds, Processing Constraints, Promising Rules, Orchestration, DOO Parameters\n- Pricing: Price Lists, Strategies, Algorithms, Discounts, Profiles\n- Shipping: Parameters, Ship Methods, Pick Release Rules, Document Sets, Freight, Auto Ship Confirm\n- Receivables: Transaction Types, Sources (AutoInvoice), Payment Terms, Receipt Classes/Methods, Revenue Recognition, AutoAccounting, Aging Buckets, System Options\n\nEXAMPLE:\n| CFG-OTC-001 | OM | Order Types | Standard SO | Navigator > Order Management > Setup > Manage Order Types | Manage Order Type | Standard, Book-Pick-Ship-Invoice | [CLIENT] | Requires fulfillment line type | Default for most orders |",e:"40+ config items with Oracle navigation."},
@@ -184,13 +172,13 @@ const DP=[
 ];
 
 // ═══ STATE ═══
-let S={tab:"dashboard",fC:"All",fM:"All",fP:"All",q:"",openId:null,admin:false,editing:null,prompts:[...DP]};
+let S={tab:"dashboard",fC:"All",fM:"All",fP:"All",q:"",openId:null};
 
 // ═══ HELPERS ═══
 function badge(t,cl){return '<span class="badge" style="background:'+cl+'15;color:'+cl+'">'+t+'</span>'}
-function ccn(c){return S.prompts.filter(d=>d.c===c).length}
-function mcn(m){return S.prompts.filter(d=>d.m===m).length}
-function fl(){return S.prompts.filter(d=>{
+function ccn(c){return PROMPTS.filter(d=>d.c===c).length}
+function mcn(m){return PROMPTS.filter(d=>d.m===m).length}
+function fl(){return PROMPTS.filter(d=>{
   if(S.fC!=="All"&&d.c!==S.fC)return false;
   if(S.fM!=="All"&&d.m!==S.fM)return false;
   if(S.fP!=="All"&&d.p!==S.fP)return false;
@@ -203,40 +191,19 @@ function setTab(t){S.tab=t;S.openId=null;render()}
 function setF(k,v){S[k]=v;render()}
 function clrF(){S.fC="All";S.fM="All";S.fP="All";S.q="";render()}
 function toggle(id){S.openId=S.openId===id?null:id;render()}
-function toggleAdmin(){S.admin=!S.admin;render()}
-function startEdit(id){S.editing=id==="new"?"new":S.prompts.find(p=>p.id===id);render()}
-function cancelEdit(){S.editing=null;render()}
-function saveEdit(){
-  let f={};
-  f.id=+document.getElementById('ef-id').value;
-  f.n=document.getElementById('ef-n').value;
-  f.c=document.getElementById('ef-c').value;
-  f.m=document.getElementById('ef-m').value;
-  f.p=document.getElementById('ef-p').value;
-  f.t=+document.getElementById('ef-t').value;
-  f.a=+document.getElementById('ef-a').value;
-  f.pr=document.getElementById('ef-pr').value;
-  f.e=document.getElementById('ef-e').value;
-  if(S.editing==="new"){if(!f.id)f.id=Math.max(...S.prompts.map(p=>p.id),0)+1;S.prompts.push(f)}
-  else S.prompts=S.prompts.map(p=>p.id===f.id?f:p);
-  S.prompts.sort((a,b)=>a.id-b.id);
-  S.editing=null;render();
-}
-function delPrompt(id){if(confirm("Delete prompt #"+id+"?")){S.prompts=S.prompts.filter(p=>p.id!==id);render()}}
-function resetAll(){if(confirm("Reset to original 70 prompts?")){S.prompts=[...DP];render()}}
 
 function copyPr(id){
-  let d=S.prompts.find(p=>p.id===id);
+  let d=PROMPTS.find(p=>p.id===id);
   navigator.clipboard.writeText(d.pr);
   let b=document.getElementById('cp-'+id);
-  b.textContent='Copied!';b.style.background='#059669';
+  b.textContent='\u2713 Copied!';b.style.background='#059669';
   setTimeout(()=>{b.textContent='Copy Prompt';b.style.background='#A100FF'},1500);
 }
 function openAI(id,name,url){
-  let d=S.prompts.find(p=>p.id===id);
+  let d=PROMPTS.find(p=>p.id===id);
   navigator.clipboard.writeText(d.pr);
   let b=document.getElementById('ai-'+id+'-'+name.replace(/\s/g,''));
-  b.textContent='Opening...';b.style.background='#059669';
+  b.textContent='\u2713 Copied & Opening...';b.style.background='#059669';
   setTimeout(()=>{b.textContent=name;b.style.background=''},1500);
   window.open(url,'_blank');
 }
@@ -244,15 +211,14 @@ function openAI(id,name,url){
 // ═══ CARD HTML ═══
 function cardH(d){
   let sv=d.t-d.a,pc=d.t>0?Math.round(sv/d.t*100):0,isO=S.openId===d.id;
-  let h='<div class="card"><div class="card-h" onclick="toggle('+d.id+')">';
+  let h='<div class="card'+(isO?' open':'')+'"><div class="card-h" onclick="toggle('+d.id+')">';
   h+='<div class="card-num" style="background:'+(CL[d.c]||'#666')+'">'+d.id+'</div>';
   h+='<div style="flex:1;min-width:0"><div class="card-name">'+d.n+'</div>';
   h+='<div>'+badge(d.c,CL[d.c]||'#666')+badge(d.m,'#374151')+badge(d.p,'#6366f1')+(d.t>0?badge(pc+'% faster','#059669'):'')+'</div></div>';
-  h+='<span class="arrow">'+(isO?'&#9650;':'&#9660;')+'</span></div>';
+  h+='<span class="arrow">&#9660;</span></div>';
   if(isO){
-    h+='<div class="card-b"><div class="btn-row"><span class="btn-label">Prompt \u2014 Copy or Open in AI</span>';
-    if(S.admin)h+='<div class="admin-btns"><button class="edit-btn" onclick="event.stopPropagation();startEdit('+d.id+')">Edit</button><button class="del-btn" onclick="event.stopPropagation();delPrompt('+d.id+')">Delete</button></div>';
-    h+='</div><div class="ai-btns">';
+    h+='<div class="card-b"><div class="btn-row"><span class="btn-label">Copy prompt or open directly in your AI tool</span></div>';
+    h+='<div class="ai-btns">';
     h+='<button class="ai-btn" id="cp-'+d.id+'" style="background:#A100FF" onclick="event.stopPropagation();copyPr('+d.id+')">Copy Prompt</button>';
     AI.forEach(a=>{h+='<button class="ai-btn" id="ai-'+d.id+'-'+a.n.replace(/\s/g,'')+'" style="background:'+a.bg+'" onclick="event.stopPropagation();openAI('+d.id+',\''+a.n+'\',\''+a.u+'\')">'+a.n+'</button>'});
     h+='</div>';
@@ -263,26 +229,10 @@ function cardH(d){
   h+='</div>';return h;
 }
 
-// ═══ EDIT FORM ═══
-function editFormH(){
-  let p=S.editing==="new"?{id:0,n:"",c:"Documentation",m:"Cross-Module",p:"Design",t:0,a:0,pr:"",e:""}:S.editing;
-  let h='<div class="edit-form"><h3>'+(S.editing==="new"?"Add":"Edit")+' Prompt</h3><div class="edit-grid">';
-  h+='<div><label>Name</label><input id="ef-n" value="'+p.n.replace(/"/g,'&quot;')+'"></div>';
-  h+='<div><label>ID</label><input id="ef-id" type="number" value="'+p.id+'"></div>';
-  h+='<div><label>Category</label><select id="ef-c">'+CT.map(c=>'<option'+(c===p.c?' selected':'')+'>'+c+'</option>').join('')+'</select></div>';
-  h+='<div><label>Module</label><select id="ef-m">'+MD.map(m=>'<option'+(m===p.m?' selected':'')+'>'+m+'</option>').join('')+'</select></div>';
-  h+='<div><label>Phase</label><select id="ef-p">'+PH.map(x=>'<option'+(x===p.p?' selected':'')+'>'+x+'</option>').join('')+'</select></div>';
-  h+='<div style="display:flex;gap:6px"><div style="flex:1"><label>Manual Hrs</label><input id="ef-t" type="number" step="0.5" value="'+p.t+'"></div><div style="flex:1"><label>AI Hrs</label><input id="ef-a" type="number" step="0.25" value="'+p.a+'"></div></div>';
-  h+='</div><div><label>Prompt Text</label><textarea id="ef-pr">'+p.pr.replace(/</g,'&lt;').replace(/>/g,'&gt;')+'</textarea></div>';
-  h+='<div style="margin-bottom:8px"><label>Output Description</label><input id="ef-e" value="'+p.e.replace(/"/g,'&quot;')+'"></div>';
-  h+='<button class="save-btn" onclick="saveEdit()">Save</button> <button class="cancel-btn" onclick="cancelEdit()">Cancel</button></div>';
-  return h;
-}
-
 // ═══ RENDER ═══
 function render(){
-  let tM=S.prompts.reduce((s,d)=>s+d.t,0),tA=S.prompts.reduce((s,d)=>s+d.a,0),tS=tM-tA;
-  let vc=S.prompts.filter(d=>d.c==="Visio Diagram").length;
+  let tM=PROMPTS.reduce((s,d)=>s+d.t,0),tA=PROMPTS.reduce((s,d)=>s+d.a,0),tS=tM-tA;
+  let vc=PROMPTS.filter(d=>d.c==="Visio Diagram").length;
   let mxC=Math.max(...CT.map(ccn)),mxM=Math.max(...MD.map(mcn));
   let f=fl();
 
@@ -292,15 +242,10 @@ function render(){
   h+='<span class="sep"></span><span class="cp-text">Microsoft 365 Copilot</span>';
   h+='<span class="sep"></span><span class="ai-badge">&#10022; AI-POWERED</span></div>';
   h+='<div class="hdr-row"><div><h1>Delivery Copilot Prompt Library</h1>';
-  h+='<p>'+S.prompts.length+' prompts | '+vc+' Visio generators | Multi-AI: Copilot, ChatGPT, Claude, Gemini</p></div>';
-  h+='<button class="admin-btn'+(S.admin?' on':'')+'" onclick="toggleAdmin()">'+(S.admin?'Exit Admin':'Admin')+'</button></div></div>';
-
-  if(S.admin){
-    h+='<div class="admin-bar"><span class="b">Admin Mode</span><span>Add, edit, delete. Changes are instant.</span>';
-    h+='<div class="actions"><button class="add-btn" onclick="startEdit(\'new\')">+ Add Prompt</button>';
-    h+='<button class="reset-btn" onclick="resetAll()">Reset Defaults</button></div></div>';
-  }
-  if(S.editing)h+=editFormH();
+  h+='<p>'+PROMPTS.length+' prompts | '+vc+' Visio generators | Multi-AI: Copilot, ChatGPT, Claude, Gemini</p></div>';
+  h+='<a class="gh-link" href="https://github.com/jil2811/oracle-scm-dashboard" target="_blank">';
+  h+='<svg width="14" height="14" viewBox="0 0 16 16" fill="#fff"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>';
+  h+=' Contribute</a></div></div>';
 
   h+='<div class="tabs">';
   [["dashboard","Dashboard"],["library","All Prompts"],["visio","Visio Flows"],["guide","Guide"]].forEach(function(x){
@@ -311,7 +256,7 @@ function render(){
   // DASHBOARD
   if(S.tab==="dashboard"){
     h+='<div class="stats">';
-    [{l:"Prompts",v:S.prompts.length,cl:"var(--acn)"},{l:"Visio",v:vc,cl:"var(--blue)"},{l:"Manual",v:tM+"h",cl:"var(--red)"},{l:"Copilot",v:tA+"h",cl:"var(--green)"},{l:"Saved",v:tS+"h",cl:"var(--mid)"}].forEach(function(s){
+    [{l:"Prompts",v:PROMPTS.length,cl:"var(--acn)"},{l:"Visio",v:vc,cl:"var(--blue)"},{l:"Manual",v:tM+"h",cl:"var(--red)"},{l:"Copilot",v:tA+"h",cl:"var(--green)"},{l:"Saved",v:tS+"h",cl:"var(--mid)"}].forEach(function(s){
       h+='<div class="sc" style="border-top-color:'+s.cl+'"><div class="n" style="color:'+s.cl+'">'+s.v+'</div><div class="l">'+s.l+'</div></div>';
     });
     h+='</div><div class="g2"><div class="sec"><h3>By Category</h3>';
@@ -323,23 +268,23 @@ function render(){
 
   // LIBRARY
   if(S.tab==="library"){
-    h+='<input class="search" placeholder="Search prompts..." value="'+S.q+'" oninput="S.q=this.value;render()">';
+    h+='<input class="search" placeholder="Search prompts by name, category, or module..." value="'+S.q+'" oninput="S.q=this.value;render()">';
     h+='<div class="filters">';
     h+='<select onchange="setF(\'fC\',this.value)"><option value="All">All Categories</option>';CT.forEach(function(c){h+='<option value="'+c+'"'+(S.fC===c?' selected':'')+'>'+c+' ('+ccn(c)+')</option>'});h+='</select>';
     h+='<select onchange="setF(\'fM\',this.value)"><option value="All">All Modules</option>';MD.forEach(function(m){h+='<option value="'+m+'"'+(S.fM===m?' selected':'')+'>'+m+' ('+mcn(m)+')</option>'});h+='</select>';
     h+='<select onchange="setF(\'fP\',this.value)"><option value="All">All Phases</option>';PH.forEach(function(p){h+='<option value="'+p+'"'+(S.fP===p?' selected':'')+'>'+p+'</option>'});h+='</select>';
-    if(S.fC!=="All"||S.fM!=="All"||S.fP!=="All"||S.q)h+='<button class="clr-btn" onclick="clrF()">Clear</button>';
-    h+='</div><div class="count">'+f.length+' of '+S.prompts.length+'</div>';
+    if(S.fC!=="All"||S.fM!=="All"||S.fP!=="All"||S.q)h+='<button class="clr-btn" onclick="clrF()">Clear Filters</button>';
+    h+='</div><div class="count">Showing '+f.length+' of '+PROMPTS.length+' prompts</div>';
     f.forEach(function(d){h+=cardH(d)});
-    if(!f.length)h+='<div style="text-align:center;padding:16px;color:#9ca3af">No matches.</div>';
+    if(!f.length)h+='<div style="text-align:center;padding:16px;color:#9ca3af">No prompts match your filters.</div>';
   }
 
   // VISIO
   if(S.tab==="visio"){
     h+='<div class="visio-intro"><h2>Visio Process Flow Generators</h2>';
     h+='<p>'+vc+' prompts for Oracle Fusion Cloud standard cross-functional swim lane diagrams. Each follows the structured table format with exact Oracle navigation paths, Decision branching, and integration callouts.</p>';
-    h+='<p style="margin-top:3px;font-size:9px;opacity:.8">Copy prompt > Paste in AI tool > Get structured table > Open Visio > Create swim lanes > Add shapes per table</p></div>';
-    MD.forEach(function(m){let vp=S.prompts.filter(d=>d.c==="Visio Diagram"&&d.m===m);if(!vp.length)return;
+    h+='<p style="margin-top:3px;font-size:9px;opacity:.8">Copy prompt \u2192 Paste in AI tool \u2192 Get structured table \u2192 Open Visio \u2192 Create swim lanes \u2192 Add shapes per table</p></div>';
+    MD.forEach(function(m){let vp=PROMPTS.filter(d=>d.c==="Visio Diagram"&&d.m===m);if(!vp.length)return;
       h+='<div class="mod-hdr">'+m+' \u2014 '+vp.length+' flow'+(vp.length>1?'s':'')+'</div>';
       vp.forEach(function(d){h+=cardH(d)});
     });
@@ -348,24 +293,24 @@ function render(){
   // GUIDE
   if(S.tab==="guide"){
     h+='<div class="sec"><h2 style="font-size:13px;font-weight:800;margin-bottom:8px;border-bottom:3px solid var(--acn);padding-bottom:4px">Quick Start</h2>';
-    [{n:"1",t:"Browse",d:"Use All Prompts or Visio Flows. Search and filter."},{n:"2",t:"Choose Your AI",d:"Buttons for M365 Copilot, ChatGPT, Claude, Gemini. Click to copy AND open."},{n:"3",t:"Customize",d:"Replace [CLIENT NAME], [PROJECT NAME] and other placeholders."},{n:"4",t:"Review",d:"Standard prompts (Role>Task>Context>Constraints>Format>Example) produce 80%+ usable output."},{n:"5",t:"For Visio",d:"Output is a structured table. Open Visio > Cross-Functional Flowchart > Add shapes per table."},{n:"6",t:"Admin",d:"Click Admin to add, edit, delete prompts."}].forEach(function(s){
+    [{n:"1",t:"Browse",d:"Use All Prompts or Visio Flows tabs. Search and filter by category, module, or phase."},{n:"2",t:"Choose Your AI",d:"Buttons for M365 Copilot, ChatGPT, Claude, Gemini. Click to copy AND open."},{n:"3",t:"Customize",d:"Replace [CLIENT NAME], [PROJECT NAME] and other placeholders with your project details."},{n:"4",t:"Review",d:"Standard prompts (Role>Task>Context>Constraints>Format>Example) produce 80%+ usable output."},{n:"5",t:"For Visio",d:"Output is a structured table. Open Visio > Cross-Functional Flowchart > Add shapes per table."},{n:"6",t:"Contribute",d:"Fork the repo on GitHub, add or edit prompts in the PROMPTS array, and submit a PR."}].forEach(function(s){
       h+='<div class="step"><div class="step-n">'+s.n+'</div><div><div class="step-t">'+s.t+'</div><div class="step-d">'+s.d+'</div></div></div>';
     });
     h+='</div>';
-    h+='<div class="sec"><h2 style="font-size:13px;font-weight:800;margin-bottom:8px;border-bottom:3px solid var(--acn);padding-bottom:4px">Prompt Engineering Standard</h2>';
+    h+='<div class="sec" style="margin-top:6px"><h2 style="font-size:13px;font-weight:800;margin-bottom:8px;border-bottom:3px solid var(--acn);padding-bottom:4px">Prompt Engineering Standard</h2>';
     h+='<p style="font-size:9.5px;color:#4b5563;margin-bottom:6px">Every prompt follows a 6-component standard:</p>';
     ["Role/Persona \u2014 Senior Oracle Fusion Cloud SCM Architect (25+ years, 15+ implementations)","Task/Goal \u2014 Clear action verb (create, generate, transform)","Context \u2014 Client type, project phase, methodology, audience","Constraints \u2014 Oracle Cloud terminology, synthetic data, navigation paths, format rules","Format/Output \u2014 Exact section structure, table columns, deliverable specs","Examples \u2014 Sample output excerpts showing expected quality"].forEach(function(t,i){
       h+='<div style="display:flex;gap:4px;margin-bottom:2px;font-size:9.5px"><span style="color:var(--acn);font-weight:800">'+(i+1)+'.</span><span>'+t+'</span></div>';
     });
     h+='</div>';
-    h+='<div class="sec"><h2 style="font-size:13px;font-weight:800;margin-bottom:6px;border-bottom:3px solid var(--acn);padding-bottom:4px">Role-Based Sequences</h2>';
-    [{r:"Functional Consultant",s:"BRD > FDD > Visio Flows > BR100 > Training Guide"},{r:"Process Architect",s:"Meta Visio (#69) > Module Flows > E2E Flows (#33-36)"},{r:"Test Lead",s:"Strategy (#48) > UAT > SIT (#41) > Regression (#50) > Tracker (#49)"},{r:"Project Manager",s:"WBS (#44) > RACI (#45) > Status (#40) > SteerCo (#57) > Risk (#46)"},{r:"Data Migration Lead",s:"Strategy (#37) > MD050 (#52) > FBDI (#54) > CV040 (#53)"},{r:"Cutover Lead",s:"Cutover (#38) > Deployment (#43) > Hypercare (#56)"}].forEach(function(r){
+    h+='<div class="sec" style="margin-top:6px"><h2 style="font-size:13px;font-weight:800;margin-bottom:6px;border-bottom:3px solid var(--acn);padding-bottom:4px">Role-Based Sequences</h2>';
+    [{r:"Functional Consultant",s:"BRD \u2192 FDD \u2192 Visio Flows \u2192 BR100 \u2192 Training Guide"},{r:"Process Architect",s:"Meta Visio (#69) \u2192 Module Flows \u2192 E2E Flows (#33-36)"},{r:"Test Lead",s:"Strategy (#48) \u2192 UAT \u2192 SIT (#41) \u2192 Regression (#50) \u2192 Tracker (#49)"},{r:"Project Manager",s:"WBS (#44) \u2192 RACI (#45) \u2192 Status (#40) \u2192 SteerCo (#57) \u2192 Risk (#46)"},{r:"Data Migration Lead",s:"Strategy (#37) \u2192 MD050 (#52) \u2192 FBDI (#54) \u2192 CV040 (#53)"},{r:"Cutover Lead",s:"Cutover (#38) \u2192 Deployment (#43) \u2192 Hypercare (#56)"}].forEach(function(r){
       h+='<div class="role"><h4>'+r.r+'</h4><p>'+r.s+'</p></div>';
     });
     h+='</div>';
   }
 
-  h+='<div class="footer">Oracle SCM Delivery Copilot v6.0 | Accenture | Public Service Oracle | AI-Enabled Delivery Competition 2026</div>';
+  h+='<div class="footer">Oracle SCM Delivery Copilot v7.0 | Accenture | Public Service Oracle | AI-Enabled Delivery 2026 | <a href="https://github.com/jil2811/oracle-scm-dashboard" style="color:#9ca3af">GitHub</a></div>';
   document.getElementById('app').innerHTML=h;
 }
 render();
